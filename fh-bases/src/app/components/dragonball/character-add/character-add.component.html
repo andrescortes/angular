@@ -1,0 +1,27 @@
+<h3>Add: {{ name() | titlecase }}, Power: {{ power() }}</h3>
+<input
+  #txtName
+  [value]="name()"
+  (change)="name.set(txtName.value)"
+  type="text"
+  class="form-control"
+  name="name"
+  id="name"
+  placeholder="Name"
+>
+<input
+  #txtPower
+  (input)="power.set(+txtPower.value)"
+  [value]="power()"
+  type="number"
+  class="form-control mt-2"
+  name="power"
+  id="power"
+  placeholder="power"
+>
+<button [disabled]="!checkFields()" (click)="addCharacter()" class="btn btn-primary mt-2">Add</button>
+
+@if (isValid()) {
+  <hr>
+  <span class="text-danger">Values not allowed.</span>
+}

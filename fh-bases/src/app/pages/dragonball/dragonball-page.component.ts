@@ -1,11 +1,6 @@
 import { Component, computed, signal } from '@angular/core';
 import { TitleCasePipe } from '@angular/common';
-
-interface Character {
-  id: number;
-  name: string;
-  power: number;
-}
+import { ICharacter } from '@/models';
 
 @Component({
   selector: 'app-dragonball-page',
@@ -16,30 +11,16 @@ interface Character {
   styleUrl: './dragonball-page.component.css'
 })
 export class DragonballPageComponent {
-  characters = signal<Character[]>([
+  characters = signal<ICharacter[]>([
     {
       id: 1,
       name: 'Goku',
       power: 9001
-    },
-    {
-      id: 2,
-      name: 'Vegeta',
-      power: 8000
-    },
-    {
-      id: 3,
-      name: 'Cell',
-      power: 3000
-    }, {
-      id: 4,
-      name: 'Yamcha',
-      power: 500
-    },
+    }
   ]);
 
-  name = signal<string>('gohan');
-  power = signal<number>(100);
+  name = signal<string>('');
+  power = signal<number>(0);
   isRepeat = false;
 
   // powerClasses = computed(() => {
@@ -53,7 +34,7 @@ export class DragonballPageComponent {
     } else {
       this.isRepeat = false;
       this.characters.update(charts => {
-        const newCharacter: Character = {
+        const newCharacter: ICharacter = {
           id: charts.length + 1,
           name: this.name(),
           power: this.power(),

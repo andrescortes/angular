@@ -1,0 +1,19 @@
+<h2>Dragonball Super Page</h2>
+<hr>
+
+<section class="row">
+  <div class="col-12 col-sm-6">
+    <app-character-add
+      [isValid]="isRepeat()"
+      (newCharacter)="addCharacter($event)"
+    ></app-character-add>
+  </div>
+
+  <div class="col-12 col-sm-6">
+    <app-character-list
+      listName="Character list"
+      [characters]="characters()">
+    </app-character-list>
+  </div>
+</section>
+
