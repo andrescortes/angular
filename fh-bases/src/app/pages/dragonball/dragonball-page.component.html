@@ -1,0 +1,53 @@
+<h2>Dragonball Page</h2>
+<hr>
+
+<section class="row">
+  <div class="col-12 col-sm-6">
+    <h3>Add: {{ name() | titlecase }}, Power: {{ power() }}</h3>
+    <input
+      #txtName
+      [value]="name()"
+      (change)="name.set(txtName.value)"
+      type="text"
+      class="form-control"
+      name="name"
+      id="name"
+      placeholder="Name"
+    >
+    <input
+      #txtPower
+      (input)="power.set(+txtPower.value)"
+      [value]="power()"
+      type="number"
+      class="form-control mt-2"
+      name="power"
+      id="power"
+      placeholder="power"
+    >
+    <button (click)="addCharacter()" class="btn btn-primary mt-2">Add</button>
+
+    @if (isRepeat) {
+      <hr>
+      <span>{{ name() | titlecase}} already exists.</span>
+    }
+  </div>
+
+  <div class="col-12 col-sm-6">
+    <h3>List</h3>
+    <ul>
+      @for (character of characters(); track character.id; let idx = $index) {
+        @if (character.power > 10) {
+          <li>
+            <span>{{ idx + 1 }} - {{ character.name }}</span>
+
+            <strong
+              [class.text-danger]="character.power > 9000"
+              [class.text-primary]="character.power <= 9000"
+            > ({{ character.power }}) </strong>
+          </li>
+        }
+      }
+    </ul>
+  </div>
+</section>
+
