@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { GifListComponent } from '@/gifs/components/gif-list/gif-list.component';
+import { GifsService } from '@/gifs/services/gifs.service';
 
 @Component({
   selector: 'app-trending-page',
@@ -11,6 +12,8 @@ import { GifListComponent } from '@/gifs/components/gif-list/gif-list.component'
 })
 export class TrendingPageComponent {
   protected readonly IMAGES_URL = IMAGES_URL;
+  private readonly gifsService = inject(GifsService);
+  
 }
 
 const IMAGES_URL: string[] = [
