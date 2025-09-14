@@ -1,8 +1,8 @@
-import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { IGiphy } from '../interfaces';
 import { environment } from '@envs/environment';
-import { map, Observable, of, tap } from 'rxjs';
+import { Observable } from 'rxjs';
+import { IGiphy } from '../interfaces';
 
 @Injectable({
   providedIn: 'root'

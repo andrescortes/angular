@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+
 import { GifListComponent } from '@/gifs/components/gif-list/gif-list.component';
 import { GifsService } from '@/gifs/services/gifs.service';
 
@@ -13,7 +14,7 @@ import { GifsService } from '@/gifs/services/gifs.service';
 export class TrendingPageComponent {
   protected readonly IMAGES_URL = IMAGES_URL;
   private readonly gifsService = inject(GifsService);
-  
+
 }
 
 const IMAGES_URL: string[] = [

@@ -1,6 +1,6 @@
 import { HttpEventType, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { filter, finalize, tap } from 'rxjs';
+import { finalize, tap } from 'rxjs';
 import { ProgressBarService } from '../services/progress-bar.service';
 
 export const loggingInterceptor: HttpInterceptorFn = (req, next) => {

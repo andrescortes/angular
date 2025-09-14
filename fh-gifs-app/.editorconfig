@@ -1,17 +1,49 @@
-# Editor configuration, see https://editorconfig.org
+# EditorConfig is awesome: https://EditorConfig.org
+
+# top-most EditorConfig file
 root = true
 
+# Configuración universal para todos los archivos
 [*]
 charset = utf-8
-indent_style = space
-indent_size = 2
+end_of_line = lf
 insert_final_newline = true
 trim_trailing_whitespace = true
+max_line_length = 120
 
-[*.ts]
+# Archivos TypeScript y JavaScript
+[*.{ts,tsx,js,jsx}]
+indent_style = space
+indent_size = 2
 quote_type = single
-ij_typescript_use_double_quotes = false
 
+# Archivos JSON
+[*.json]
+indent_style = space
+indent_size = 2
+
+# Archivos HTML de Angular
+[*.html]
+indent_style = space
+indent_size = 2
+max_line_length = 140
+
+# Archivos CSS/SCSS
+[*.{css,scss,sass}]
+indent_style = space
+indent_size = 2
+
+# Archivos Markdown (preservar espacios al final)
 [*.md]
-max_line_length = off
 trim_trailing_whitespace = false
+max_line_length = 0
+
+# Archivos YAML
+[*.{yml,yaml}]
+indent_style = space
+indent_size = 2
+
+# Archivos de configuración
+[*.{xml,config,props,targets,nuspec,proj,projitems,ruleset,vsixmanifest,vsct}]
+indent_style = space
+indent_size = 2
