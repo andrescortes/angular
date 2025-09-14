@@ -4,13 +4,8 @@ import { SideMenuOptionsComponent } from '@/gifs/components/side-menu-options/si
 
 @Component({
   selector: 'app-side-menu',
-  imports: [
-    SideMenuHeaderComponent,
-    SideMenuOptionsComponent
-  ],
+  imports: [SideMenuHeaderComponent, SideMenuOptionsComponent],
   templateUrl: './side-menu.component.html',
-  styleUrl: './side-menu.component.css'
+  styleUrl: './side-menu.component.css',
 })
-export class SideMenuComponent {
-
-}
+export class SideMenuComponent {}

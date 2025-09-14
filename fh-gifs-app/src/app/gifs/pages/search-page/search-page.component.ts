@@ -7,7 +7,7 @@ import { Component, inject } from '@angular/core';
   selector: 'app-search-page',
   imports: [GifListComponent],
   templateUrl: './search-page.component.html',
-  styleUrl: './search-page.component.css'
+  styleUrl: './search-page.component.css',
 })
 export class SearchPageComponent {
   private readonly gifService = inject(GifService);
@@ -15,12 +15,11 @@ export class SearchPageComponent {
 
   onSearch(value: string) {
     if (value.length > 0 && value.length < 50) {
-      this.gifService.searchGifs(value)
-        .subscribe({
-          next: (response: IGif[]) => {
-            this.gifs = response
-          }
-        })
+      this.gifService.searchGifs(value).subscribe({
+        next: (response: IGif[]) => {
+          this.gifs = response;
+        },
+      });
     }
   }
 }

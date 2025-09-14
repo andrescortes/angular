@@ -5,13 +5,9 @@ import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-side-menu-options',
-  imports: [
-    RouterLink,
-    NgClass,
-    RouterLinkActive
-  ],
+  imports: [RouterLink, NgClass, RouterLinkActive],
   templateUrl: './side-menu-options.component.html',
-  styleUrl: './side-menu-options.component.css'
+  styleUrl: './side-menu-options.component.css',
 })
 export class SideMenuOptionsComponent {
   menuOptions: IMenuOption[] = [
@@ -27,5 +23,5 @@ export class SideMenuOptionsComponent {
       path: '/dashboard/search',
       icon: 'fa-solid fa-magnifying-glass',
     },
-  ]
+  ];
 }

@@ -1,11 +1,11 @@
 <div id="nav" class="w-full px-6">
   @for (menu of menuOptions; track menu.path) {
-    <a [routerLink]="menu.path"
-       routerLinkActive="bg-blue-800"
-       class="w-full px-2 inline-flex space-x-2 items-center border-b border-slate-700 py-3 hover:bg-white/5 transition ease-linear duration-150">
+    <a
+      [routerLink]="menu.path"
+      routerLinkActive="bg-blue-800"
+      class="w-full px-2 inline-flex space-x-2 items-center border-b border-slate-700 py-3 hover:bg-white/5 transition ease-linear duration-150">
       <div>
         <i [ngClass]="menu.icon"></i>
-
       </div>
       <div class="flex flex-col">
         <span class="text-lg font-bold leading-5 text-white">{{ menu.label }}</span>
@@ -97,5 +97,4 @@
   <!--      <span class="text-sm text-slate-500 hidden md:block">Edit App Settings</span>-->
   <!--    </div>-->
   <!--  </a>-->
-
 </div>

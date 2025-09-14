@@ -6,7 +6,7 @@ import { IGif, IGiphy } from '../interfaces';
 import { GifMap } from '../mapper';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GifService {
   private readonly httpClient = inject(HttpClient);
@@ -14,7 +14,7 @@ export class GifService {
 
   constructor() {
     this.loadTrendingGifs().subscribe({
-      next: (giphy) => {
+      next: giphy => {
         const gifs = GifMap.toDtos(giphy.data);
         this.trendingGifs.set(gifs);
       },
@@ -31,15 +31,14 @@ export class GifService {
   }
 
   searchGifs(query: string): Observable<IGif[]> {
-    return this.httpClient.get<IGiphy>(`${environment.GIPHY_URL_BASE}/gifs/search`, {
-      params: {
-        api_key: environment.GIPHY_KEY,
-        q: query,
-        limit: 20,
-      }
-    })
-      .pipe(
-        map(giphy => GifMap.toDtos(giphy.data))
-      )
+    return this.httpClient
+      .get<IGiphy>(`${environment.GIPHY_URL_BASE}/gifs/search`, {
+        params: {
+          api_key: environment.GIPHY_KEY,
+          q: query,
+          limit: 20,
+        },
+      })
+      .pipe(map(giphy => GifMap.toDtos(giphy.data)));
   }
 }

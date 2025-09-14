@@ -1,15 +1,15 @@
 export interface IGiphy {
-    data: IGiphyItem[];
+  data: IGiphyItem[];
 }
 
 export interface IGiphyItem {
-    id: string;
-    title: string;
-    images: IImage;
+  id: string;
+  title: string;
+  images: IImage;
 }
 
 export interface IImage {
-    original: {
-        url: string;
-    }
+  original: {
+    url: string;
+  };
 }

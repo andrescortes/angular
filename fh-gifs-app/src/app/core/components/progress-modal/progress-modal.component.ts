@@ -6,7 +6,7 @@ import { Subject, takeUntil } from 'rxjs';
   selector: 'app-progress-modal',
   imports: [],
   templateUrl: './progress-modal.component.html',
-  styleUrl: './progress-modal.component.css'
+  styleUrl: './progress-modal.component.css',
 })
 export class ProgressModalComponent implements OnInit, OnDestroy {
   private readonly progressBarService = inject(ProgressBarService);
@@ -14,22 +14,16 @@ export class ProgressModalComponent implements OnInit, OnDestroy {
   progress: number = 0;
 
   ngOnInit(): void {
-    this.progress
-    this.progressBarService
-      .progress
-      .pipe(
-        takeUntil(this._destroy$),
-      )
-      .subscribe({
-        next: (value) => {
-          this.progress = value;
-        }
-      })
+    this.progress;
+    this.progressBarService.progress.pipe(takeUntil(this._destroy$)).subscribe({
+      next: value => {
+        this.progress = value;
+      },
+    });
   }
 
   ngOnDestroy(): void {
     this._destroy$.next();
     this._destroy$.unsubscribe();
   }
-
 }

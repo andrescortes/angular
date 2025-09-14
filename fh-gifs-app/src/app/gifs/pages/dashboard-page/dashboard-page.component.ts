@@ -4,13 +4,8 @@ import { SideMenuComponent } from '@/gifs/components/side-menu/side-menu.compone
 
 @Component({
   selector: 'app-dashboard-page',
-  imports: [
-    RouterOutlet,
-    SideMenuComponent
-  ],
+  imports: [RouterOutlet, SideMenuComponent],
   templateUrl: './dashboard-page.component.html',
-  styleUrl: './dashboard-page.component.css'
+  styleUrl: './dashboard-page.component.css',
 })
-export class DashboardPageComponent {
-
-}
+export class DashboardPageComponent {}

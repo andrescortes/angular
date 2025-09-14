@@ -3,11 +3,13 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: 'dashboard',
-    loadComponent: () => import('./gifs/pages/dashboard-page/dashboard-page.component').then(m => m.DashboardPageComponent),
+    loadComponent: () =>
+      import('./gifs/pages/dashboard-page/dashboard-page.component').then(m => m.DashboardPageComponent),
     children: [
       {
         path: 'trending',
-        loadComponent: () => import('./gifs/pages/trending-page/trending-page.component').then(m => m.TrendingPageComponent),
+        loadComponent: () =>
+          import('./gifs/pages/trending-page/trending-page.component').then(m => m.TrendingPageComponent),
       },
       {
         path: 'search',
@@ -16,11 +18,11 @@ export const routes: Routes = [
       {
         path: '**',
         redirectTo: 'trending',
-      }
-    ]
+      },
+    ],
   },
   {
     path: '**',
     redirectTo: 'dashboard',
-  }
+  },
 ];

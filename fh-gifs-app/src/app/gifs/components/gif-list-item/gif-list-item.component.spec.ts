@@ -8,9 +8,8 @@ describe('GifListItemComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GifListItemComponent]
-    })
-    .compileComponents();
+      imports: [GifListItemComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(GifListItemComponent);
     component = fixture.componentInstance;

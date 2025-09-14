@@ -8,9 +8,8 @@ describe('TrendingPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TrendingPageComponent]
-    })
-    .compileComponents();
+      imports: [TrendingPageComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(TrendingPageComponent);
     component = fixture.componentInstance;

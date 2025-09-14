@@ -8,9 +8,8 @@ describe('SideMenuOptionsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SideMenuOptionsComponent]
-    })
-    .compileComponents();
+      imports: [SideMenuOptionsComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SideMenuOptionsComponent);
     component = fixture.componentInstance;

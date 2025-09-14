@@ -16,16 +16,16 @@ export const loggingInterceptor: HttpInterceptorFn = (req, next) => {
     tap({
       next: event => {
         if (event.type === HttpEventType.DownloadProgress) {
-          displayedProgress = Math.min(displayedProgress + (100 / maxStages), 95);
+          displayedProgress = Math.min(displayedProgress + 100 / maxStages, 95);
           progressBarService.setProgress(Math.round(displayedProgress));
         } else if (event.type === HttpEventType.Response) {
           progressBarService.setProgress(100);
         }
-      }
+      },
     }),
     finalize(() => {
       displayedProgress = 0;
       progressBarService.reset();
     })
   );
-}
+};
