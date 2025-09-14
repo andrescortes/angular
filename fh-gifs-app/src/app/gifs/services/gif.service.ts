@@ -1,22 +1,24 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '@envs/environment';
 import { Observable } from 'rxjs';
-import { IGiphy } from '../interfaces';
+import { IGif, IGiphy } from '../interfaces';
+import { GifMap } from '../mapper';
 
 @Injectable({
   providedIn: 'root'
 })
-export class GifsService {
+export class GifService {
   private readonly httpClient = inject(HttpClient);
+  trendingGifs = signal<IGif[]>([]);
 
   constructor() {
     this.loadTrendingGifs().subscribe({
-      next(value) {
-        console.log('res: ', value);
-
+      next: (giphy) => {
+        const gifs = GifMap.toDtos(giphy.data);
+        this.trendingGifs.set(gifs);
       },
-    })
+    });
   }
 
   loadTrendingGifs(): Observable<IGiphy> {
@@ -27,6 +29,6 @@ export class GifsService {
         offset: 0,
         rating: 'g'
       },
-    })
+    });
   }
 }
