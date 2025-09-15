@@ -359,7 +359,7 @@ module.exports = [
 Open a terminal at the root of the project and run:
 
 ```bash
-    pnpm add -D prettier eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin @angular-eslint/eslint-plugin @angular-eslint/eslint-plugin-template eslint-config-prettier eslint-plugin-prettier
+    pnpm add -D eslint prettier angular-eslint prettier-eslint typescript-eslint eslint-config-prettier eslint-plugin-prettier
 ```
 
 This will install all the necessary development dependencies for Prettier, ESLint, and its integration with Angular and TypeScript.
