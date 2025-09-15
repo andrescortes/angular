@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
 import { IMenuOption } from '@/gifs/interfaces';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { GifService } from '@/gifs/services/gif.service';
 import { NgClass } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-side-menu-options',
@@ -10,6 +11,8 @@ import { NgClass } from '@angular/common';
   styleUrl: './side-menu-options.component.css',
 })
 export class SideMenuOptionsComponent {
+  private readonly gifService = inject(GifService);
+  historyKeys = this.gifService.searchHistoryKeys;
   menuOptions: IMenuOption[] = [
     {
       label: 'Trending',
