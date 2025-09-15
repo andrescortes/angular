@@ -1,62 +1,6 @@
 {
-  "cSpell.words": ["Dtos", "Gifs", "GIPHY"],
-  "angular-schematics.schematicsDefaultOptions": {
-    "angular-*": {
-      "style": "css"
-    }
-  },
-  "[html]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": "explicit"
-    },
-    "editor.formatOnSave": false,
-    "editor.quickSuggestions": {
-      "other": "on",
-      "comments": "off",
-      "strings": "on"
-    }
-  },
-  "[scss]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true,
-    "editor.quickSuggestions": {
-      "other": "on",
-      "comments": "off",
-      "strings": "on"
-    }
-  },
-  "[css]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true,
-    "editor.quickSuggestions": {
-      "other": "on",
-      "comments": "off",
-      "strings": "on"
-    }
-  },
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.codeActionsOnSave": {
-      "source.organizeImports": "explicit",
-      "source.fixAll.eslint": "explicit",
-      "source.fixAll.tslint": "explicit",
-      "source.fixAll.stylelint": "explicit"
-    },
-    "editor.formatOnSave": true,
-    "editor.quickSuggestions": {
-      "other": "on",
-      "comments": "off",
-      "strings": "on"
-    }
-  },
-  "editor.suggest.snippetsPreventQuickSuggestions": false,
-  "editor.inlineSuggest.enabled": true,
-  "window.zoomLevel": 1.2,
-  "editor.fontSize": 15,
-  "editor.quickSuggestions": {
-    "other": "on",
-    "comments": "off",
-    "strings": "on"
-  }
+    "cSpell.words": [
+        "gifs"
+    ],
+    "typescript.tsdk": "node_modules\\typescript\\lib"
 }
