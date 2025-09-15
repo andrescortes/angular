@@ -8,11 +8,12 @@
     name="search-input"
     id="search-input"
     (keyup.enter)="onSearch(txtSearch.value)"
-    #txtSearch />
+    #txtSearch
+  />
 </section>
 
 @if (gifs.length > 0) {
   <section class="py-5">
-    <app-gif-list [gifs]="gifs"></app-gif-list>
+    <app-gif-list [gifs]="gifs" />
   </section>
 }

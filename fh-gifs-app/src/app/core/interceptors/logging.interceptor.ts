@@ -14,7 +14,7 @@ export const loggingInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(clonedReq).pipe(
     tap({
-      next: event => {
+      next: (event) => {
         if (event.type === HttpEventType.DownloadProgress) {
           displayedProgress = Math.min(displayedProgress + 100 / maxStages, 95);
           progressBarService.setProgress(Math.round(displayedProgress));

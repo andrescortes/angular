@@ -14,7 +14,7 @@ export class GifService {
 
   constructor() {
     this.loadTrendingGifs().subscribe({
-      next: giphy => {
+      next: (giphy) => {
         const gifs = GifMap.toDtos(giphy.data);
         this.trendingGifs.set(gifs);
       },
@@ -39,6 +39,6 @@ export class GifService {
           limit: 20,
         },
       })
-      .pipe(map(giphy => GifMap.toDtos(giphy.data)));
+      .pipe(map((giphy) => GifMap.toDtos(giphy.data)));
   }
 }

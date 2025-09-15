@@ -16,7 +16,7 @@ export class ProgressModalComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.progress;
     this.progressBarService.progress.pipe(takeUntil(this._destroy$)).subscribe({
-      next: value => {
+      next: (value) => {
         this.progress = value;
       },
     });

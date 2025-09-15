@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.progressBarService.progress.subscribe({
-      next: progress => {
+      next: (progress) => {
         this.showModal = progress > 0 && progress < 100;
         if (progress === 100) {
           setTimeout(() => {
