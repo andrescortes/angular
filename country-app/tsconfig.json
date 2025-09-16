@@ -3,13 +3,16 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "./",
     "paths": {
-      "@/*": [
-        "./src/app/*"
+      "@app/*": [
+        "src/app/*"
       ],
       "@envs/*": [
-        "./src/environments/*"
+        "src/environments/*"
+      ],
+      "@assets/*": [
+        "src/assets/*"
       ]
     },
     "outDir": "./dist/out-tsc",
@@ -25,7 +28,15 @@
     "moduleResolution": "bundler",
     "importHelpers": true,
     "target": "ES2022",
-    "module": "ES2022"
+    "module": "ES2022",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true,
+    "strictBindCallApply": true,
+    "strictFunctionTypes": true,
+    "removeComments": true,
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
