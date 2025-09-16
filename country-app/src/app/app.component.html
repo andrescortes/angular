@@ -1,5 +1,8 @@
-<h1 class="text-3xl font-bold underline">
-  Hello world!
-</h1>
+<body class="flex flex-col min-h-screen">
+    <app-header />
+    <main class="grow">
+        <router-outlet></router-outlet>
+    </main>
 
-<router-outlet />
+    <app-footer></app-footer>
+</body>
