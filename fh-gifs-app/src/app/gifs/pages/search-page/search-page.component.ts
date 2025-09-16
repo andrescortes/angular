@@ -20,4 +20,8 @@ export class SearchPageComponent {
       });
     }
   }
+
+  clear(): void {
+    this.gifService.clearLocalStorage();
+  }
 }
