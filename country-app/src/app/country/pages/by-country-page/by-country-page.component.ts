@@ -4,12 +4,12 @@ import { CountryListComponent } from '@country/country-list/country-list.compone
 import { SearchInputComponent } from '@country/search-input/search-input.component';
 
 @Component({
-  selector: 'app-by-capital-page',
-  imports: [SearchInputComponent, CountryListComponent],
-  templateUrl: './by-capital-page.component.html',
-  styleUrl: './by-capital-page.component.css'
+  selector: 'app-by-country-page',
+  imports: [CountryListComponent, SearchInputComponent],
+  templateUrl: './by-country-page.component.html',
+  styleUrl: './by-country-page.component.css'
 })
-export class ByCapitalPageComponent {
+export class ByCountryPageComponent {
 
   onChange(value: string) {
     console.log('value :>> ', value);

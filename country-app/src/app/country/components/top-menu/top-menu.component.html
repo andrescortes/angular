@@ -1,30 +1,42 @@
-<ul class="menu bg-base-200 sm:menu-horizontal rounded-box">
-    <li>
-        <a>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-            </svg>
-            Inbox
-            <span class="badge badge-xs">99+</span>
-        </a>
-    </li>
-    <li>
-        <a>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            Updates
-            <span class="badge badge-xs badge-warning">NEW</span>
-        </a>
-    </li>
-    <li>
-        <a>
-            Stats
-            <span class="badge badge-xs badge-info"></span>
-        </a>
-    </li>
-</ul>
+<nav class="p-4 w-full">
+	<ul class="menu bg-base-200 sm:menu-horizontal rounded-box">
+		<li>
+			<a routerLink="by-capital" routerLinkActive="btn-primary" class="btn">
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+					<g fill="none" fill-rule="evenodd">
+						<path
+							d="m12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.018-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z" />
+						<path fill="currentColor"
+							d="M11.206 4.49a6.78 6.78 0 0 0 5.632.618l1.58-.527L17.11 8.51a1.5 1.5 0 0 0 .03 1.031l1.539 3.846l-2.472.824a4.78 4.78 0 0 1-3.97-.436A6.78 6.78 0 0 0 6 13.39V4.982a.59.59 0 0 1 .326-.527c1.567-.783 3.333-.893 4.88.035M4 7V4.982c0-.98.554-1.877 1.431-2.316c2.176-1.088 4.674-1.169 6.804.109a4.78 4.78 0 0 0 3.97.436l3.289-1.096a1.1 1.1 0 0 1 1.391 1.39l-1.82 5.464l1.824 4.561a1.1 1.1 0 0 1-.673 1.452l-3.378 1.126a6.78 6.78 0 0 1-5.632-.618a4.78 4.78 0 0 0-4.597-.177L6 15.618V21a1 1 0 1 1-2 0v-6z" />
+					</g>
+				</svg>
+				By Capital
+			</a>
+		</li>
+		<li>
+			<a routerLink="by-country" routerLinkActive="btn-primary" class="btn">
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 48 48">
+					<path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+						d="M45.5 24c0 11.874-9.626 21.5-21.5 21.5h0C12.126 45.5 2.5 35.874 2.5 24h0C2.5 12.126 12.126 2.5 24 2.5h0c11.874 0 21.5 9.626 21.5 21.5"
+						stroke-width="1" />
+					<path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+						d="M27.348 33.88c-3.67-3.724-9.5-11.434-9.965-25.313c-.542 16.16-8.357 23.957-11.567 26.835"
+						stroke-width="1" />
+					<path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+						d="M20.652 33.88c3.67-3.724 9.5-11.434 9.965-25.313c.542 16.16 8.357 23.957 11.567 26.835"
+						stroke-width="1" />
+				</svg>
+				By Country
+			</a>
+		</li>
+		<li>
+			<a routerLink="by-region" routerLinkActive="btn-primary" class="btn">
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16">
+					<path fill="currentColor"
+						d="M6.5 2.309v8.69a.5.5 0 0 1-.032.176L9.5 12.691V3.809zm-1-.04L2 3.825v8.906l3.527-1.568a.5.5 0 0 1-.027-.164zm.274-1.216a.5.5 0 0 1 .471.01l3.768 1.884l4.284-1.904A.5.5 0 0 1 15 1.5v10a.5.5 0 0 1-.297.457l-4.5 2a.5.5 0 0 1-.427-.01l-3.789-1.894l-4.283 1.904a.5.5 0 0 1-.703-.457v-10a.5.5 0 0 1 .297-.457zM10.5 3.825v8.906l3.5-1.556V2.27z" />
+				</svg>
+				By Region
+			</a>
+		</li>
+	</ul>
+</nav>

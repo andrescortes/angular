@@ -9,10 +9,18 @@
         "src/environments/*"
       ],
       "@country/*": [
-        "src/app/country/*"
+        "src/app/country/components/*",
+        "src/app/country/interfaces/*",
+        "src/app/country/layouts/*",
+        "src/app/country/pages/*",
+        "src/app/country/services/*",
+        "src/app/country/*",
       ],
       "@shared/*": [
-        "src/app/shared/*"
+        "src/app/shared/components/*",
+        "src/app/shared/pages/*",
+        "src/app/shared/utils/*",
+        "src/app/shared/*",
       ],
       "@app/*": [
         "src/app/*"

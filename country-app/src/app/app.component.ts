@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { FooterComponent } from "./shared/components/footer/footer.component";
-import { HeaderComponent } from "./shared/components/header/header.component";
+
+import { FooterComponent } from '@shared/footer/footer.component';
+import { HeaderComponent } from '@shared/header/header.component';
 
 @Component({
   selector: 'app-root',
@@ -11,9 +12,4 @@ import { HeaderComponent } from "./shared/components/header/header.component";
 })
 export class AppComponent {
   title = 'country-app';
-  tabs = [
-    { id: "history", content: 'lorem' },
-    { id: "guide", content: 'lorem2' },
-    { id: "maps", content: 'lorem3' },
-  ];
 }
