@@ -20,15 +20,25 @@
                 </tr>
             </thead>
             <tbody>
+                @for (country of countries(); track $index) {
                 <tr>
-                    <th></th>
-                    <th>🏁</th>
-                    <td>🎌</td>
-                    <td>Japan</td>
-                    <td>Tokyo</td>
-                    <td>60M</td>
-                    <td>Actions</td>
+                    <td>{{ $index + 1 }}</td>
+                    <td class="avatar">
+                        <div class="ring-primary ring-offset-base-100 w-11 rounded-full ring-1 ring-offset-2">
+                            <img [src]="country.coatOfArms" [alt]="country.flags.alt" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="w-12 rounded-xs">
+                            <img [src]="country.flags.svg" [alt]="country.flags.alt">
+                        </div>
+                    </td>
+                    <td>{{ country.name }}</td>
+                    <td>{{ country.capital }}</td>
+                    <td>{{ country.population | number: '2.0-1' }}</td>
+                    <td><a class="link-primary cursor-pointer">more...</a></td>
                 </tr>
+                }
             </tbody>
         </table>
     </div>
