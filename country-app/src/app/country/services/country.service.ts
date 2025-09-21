@@ -26,7 +26,7 @@ export class CountryService {
   );
 
   filteredCountries = computed(() => {
-    const countriesSet = new Set([...this.countriesByAll()]);
+    const countriesSet = [...new Set(this.countriesByAll())];
     const term = this.searchTerm().toLowerCase();
     return [...countriesSet].filter((country) => country.capital?.toLowerCase()?.includes(term));
   });
