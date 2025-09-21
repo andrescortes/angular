@@ -13,24 +13,17 @@ import { SearchInputComponent } from '@country/search-input/search-input.compone
 })
 export class ByCapitalPageComponent {
   private readonly countryService = inject(CountryService);
-  isLoading = signal<boolean>(false);
   isError = signal<string | null>(null);
   countries = signal<ICountry[]>([]);
 
   onChange(value: string): void {
-    this.isLoading.set(true);
     this.isError.set(null);
-    this.countryService.searchByCapital(value)
-      .subscribe({
-        next: (countries: ICountry[]) => {
-          this.isLoading.set(false);
-          this.countries.set(countries);
-        },
-        error: (err) => {
-          console.error(err);
-          this.isLoading.set(false);
-          this.countries.set([]);
-        }
-      });
+    this.countryService.searchTerm.set(value);
+    const countries = this.countryService.filteredCountries();
+    if (countries.length === 0) {
+      this.isError.set('No countries found');
+    } else {
+      this.countries.set(countries);
+    }
   }
 }
