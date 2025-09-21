@@ -9,7 +9,7 @@
                     <th>Flag</th>
                     <th>Name</th>
                     <th>Capital</th>
-                    <th>People</th>
+                    <th>Population</th>
                     <th>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                             <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -35,7 +35,9 @@
                     </td>
                     <td>{{ country.name }}</td>
                     <td>{{ country.capital }}</td>
-                    <td>{{ country.population | number: '2.0-1' }}</td>
+                    <td>
+                        <span class="bagde badge-secondary">{{ country.population | number }}</span>
+                    </td>
                     <td><a class="link-primary cursor-pointer">more...</a></td>
                 </tr>
                 }
