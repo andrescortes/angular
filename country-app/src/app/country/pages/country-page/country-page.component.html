@@ -1,1 +1,12 @@
-<app-country-list [countries]="[]" />
+@if (countriesResource.error()) {
+<div class="alert alert-danger">Error: {{ countriesResource.error() }}</div>
+}
+
+@if (countriesResource.isLoading()) {
+<div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
+</div>
+}
+@if(countriesResource.hasValue()) {
+<app-country-list [countries]="countriesResource.value()" />
+}
