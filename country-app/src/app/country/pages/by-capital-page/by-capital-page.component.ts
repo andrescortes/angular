@@ -1,9 +1,10 @@
-import { Component, inject, resource, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
+import { rxResource } from '@angular/core/rxjs-interop';
 
 import { CountryListComponent } from '@country/country-list/country-list.component';
 import { CountryService } from '@country/country.service';
 import { SearchInputComponent } from '@country/search-input/search-input.component';
-import { firstValueFrom } from 'rxjs';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-by-capital-page',
@@ -18,15 +19,26 @@ export class ByCapitalPageComponent {
   // countries = signal<ICountry[]>([]);
   query = signal<string>('');
 
-  countryResource = resource({
+  countryResource = rxResource({
     request: () => ({ query: this.query() }),
-    loader: async ({ request }) => {
+    loader: ({ request }) => {
       if (!this.query()) {
-        return [];
+        return of([]);
       }
-      return await firstValueFrom(this.countryService.searchByQueryAndPath(request.query));
+      return this.countryService.searchByQueryAndPath(request.query);
     }
-  })
+  });
+
+  // resource works with promises
+  // countryResource = resource({
+  //   request: () => ({ query: this.query() }),
+  //   loader: async ({ request }) => {
+  //     if (!this.query()) {
+  //       return [];
+  //     }
+  //     return await firstValueFrom(this.countryService.searchByQueryAndPath(request.query));
+  //   }
+  // })
 
   // onChange(value: string): void {
   //   this.isError.set(null);
