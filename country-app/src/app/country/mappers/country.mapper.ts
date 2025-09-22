@@ -7,10 +7,10 @@ export class CountryMapper {
     }
 
     static toEntity(dto: ICountryDto): ICountry {
-        const countryName = `${dto.translations['ara']?.common?.substring(0, 3) ?? dto.name.common}, ${dto.name.common}`
+        const countryName = `${dto.translations[ 'ara' ]?.common?.substring(0, 3) ?? dto.name.common}, ${dto.name.common}`
         const img = dto.coatOfArms?.png || dto.flags?.svg || dto.flags?.png;
         return {
-            capital: dto.capital[0] || 'No Capital',
+            capital: dto?.capital ? dto.capital[ 0 ] : 'No Capital',
             name: countryName,
             population: dto.population,
             flag: dto.flag,
