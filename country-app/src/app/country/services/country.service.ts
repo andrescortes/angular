@@ -1,41 +1,51 @@
-import { HttpClient } from '@angular/common/http';
-import { computed, inject, Injectable, signal } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
 import { ICountryDto } from '@country/country-res.interface';
 import { ICountry } from '@country/country.interface';
 import { CountryMapper } from '@country/mappers/country.mapper';
 import { environment } from '@envs/environment';
 
-import { map, Observable } from 'rxjs';
+import { catchError, map, Observable, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CountryService {
   private readonly httpClient = inject(HttpClient);
-  searchTerm = signal<string>('');
+  // searchTerm = signal<string>('');
 
-  countriesByAll = toSignal(
-    this.httpClient.get<ICountryDto[]>(`${environment.COUNTRY_URL}/all`, {
-      params: {
-        fields: 'name,flags,capital,population,translations,region,subregion,coatOfArms'
-      }
-    })
-      .pipe(map((dtos) => CountryMapper.toEntities(dtos))),
-    { initialValue: [] }
-  );
+  // countriesByAll = toSignal(
+  //   this.httpClient.get<ICountryDto[]>(`${environment.COUNTRY_URL}/all`, {
+  //     params: {
+  //       fields: 'name,flags,capital,population,translations,region,subregion,coatOfArms'
+  //     }
+  //   })
+  //     .pipe(map((dtos) => CountryMapper.toEntities(dtos))),
+  //   { initialValue: [] }
+  // );
 
-  filteredCountries = computed(() => {
-    const countriesSet = [...new Set(this.countriesByAll())];
-    const term = this.searchTerm().toLowerCase();
-    return [...countriesSet].filter((country) => country.capital?.toLowerCase()?.includes(term));
-  });
+  // filteredCountries = computed(() => {
+  //   const countriesSet = [ ...new Set(this.countriesByAll()) ];
+  //   const term = this.searchTerm().toLowerCase();
+  //   return [ ...countriesSet ].filter((country) => country.capital?.toLowerCase()?.includes(term));
+  // });
 
-  searchByCapital(query: string): Observable<ICountry[]> {
-    const queryLowercase = query.toLowerCase();
-    return this.httpClient.get<ICountryDto[]>(`${environment.COUNTRY_URL}/capital/${queryLowercase}`)
+  searchByQueryAndPath(query: string, path: string = 'capital'): Observable<ICountry[]> {
+    return this.httpClient.get<ICountryDto[]>(`${environment.COUNTRY_URL}/${path}/${query}`)
       .pipe(
-        map((dtos) => CountryMapper.toEntities(dtos))
+        map((dtos) => CountryMapper.toEntities(dtos)),
+        catchError((err: HttpErrorResponse) => this.handleError(err, path))
       );
+  }
+
+  private handleError(error: HttpErrorResponse, type: string): Observable<never> {
+    console.error('error :>> ', error);
+    if (error.status === 404) {
+      return throwError(() => new Error(`${type} not found`));
+    } else if (error.status >= 500) {
+      return throwError(() => new Error(`Server error`));
+    } else {
+      return throwError(() => new Error(`Unknown error`));
+    }
   }
 }
