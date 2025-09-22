@@ -1,3 +1,9 @@
-<app-search-input [placeHolder]="'Search by Region'" (searchValue)="onChange($event)" />
+<app-search-input [placeHolder]="'Search by Region'" (searchValue)="query.set($event)" />
 
-<app-country-list [countries]="[]" />
+@if (countryResource.error()) {
+<h3 class="text-danger p-4">{{ countryResource.error()}}</h3>
+}@else if (countryResource.hasValue()) {
+<app-country-list [countries]="countryResource.value()" />
+}@else {
+<p class="text-center p-4">loading</p>
+}
