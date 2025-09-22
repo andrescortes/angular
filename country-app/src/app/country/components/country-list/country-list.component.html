@@ -38,7 +38,7 @@
                     <td>
                         <span class="bagde badge-secondary">{{ country.population | number }}</span>
                     </td>
-                    <td><a class="link-primary cursor-pointer">more...</a></td>
+                    <td><a [routerLink] = "['/country/by/', country.cca2]" class="link-primary cursor-pointer">more...</a></td>
                 </tr>
                 }
             </tbody>
