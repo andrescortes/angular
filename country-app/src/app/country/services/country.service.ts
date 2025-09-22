@@ -11,6 +11,7 @@ import { catchError, map, Observable, throwError } from 'rxjs';
   providedIn: 'root'
 })
 export class CountryService {
+
   private readonly httpClient = inject(HttpClient);
   // searchTerm = signal<string>('');
 
@@ -36,6 +37,17 @@ export class CountryService {
         map((dtos) => CountryMapper.toEntities(dtos)),
         catchError((err: HttpErrorResponse) => this.handleError(err, path))
       );
+  }
+
+  byCca2(param: string): Observable<ICountry[]> {
+    return this.httpClient.get<ICountryDto[]>(`${environment.COUNTRY_URL}/alpha`, {
+      params: {
+        codes: param,
+      }
+    })
+      .pipe(
+        map((dtos) => CountryMapper.toEntities(dtos)),
+      )
   }
 
   private handleError(error: HttpErrorResponse, type: string): Observable<never> {
