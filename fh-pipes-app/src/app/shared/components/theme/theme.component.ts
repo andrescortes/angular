@@ -1,8 +1,9 @@
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, TitleCasePipe, UpperCasePipe } from '@angular/common';
 import { Component, inject, isDevMode } from '@angular/core';
 
 @Component({
   selector: 'app-theme',
+  imports: [ TitleCasePipe ],
   templateUrl: './theme.component.html',
   styleUrls: [ './theme.component.css' ]
 })
@@ -50,15 +51,16 @@ export class ThemeComponent {
     const savedTheme = localStorage.getItem(this.THEME_KEY);
     if (savedTheme) {
       this.documentRef.documentElement.setAttribute(this.THEME_ATTR, savedTheme);
-      this.themeCurrent = this.findTheme(savedTheme) ?? this.themes[ 0 ];
-      this.position = this.themeCurrent.position;
-      this.themeNext = this.themes[ this.getNextPosition(this.position) ];
     }
     this.removeVersion();
   }
 
   findTheme(theme: string): ITheme | undefined {
     return this.themes.find(t => t.theme === theme);
+  }
+
+  getThemeName(): string {
+    return localStorage.getItem(this.THEME_KEY) ?? this.themes[ 0 ].theme;
   }
 
   removeVersion(): void {
