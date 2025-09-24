@@ -2,5 +2,5 @@
 @import "tailwindcss";
 
 @plugin "daisyui" {
-    themes: dracula --default, dark --prefersdark, cyberpunk, coffee;
+    themes: dracula --default, dark --prefersdark, nord, cyberpunk, coffee;
 }
