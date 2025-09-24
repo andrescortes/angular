@@ -12,4 +12,7 @@ import { ICountry } from '@country/country.interface';
 export class CountryListComponent {
   countries = input.required<ICountry[]>();
 
+  errorMessage = input<string | unknown>('');
+  isLoading = input<boolean>(false);
+  isEmpty = input<boolean>(false);
 }

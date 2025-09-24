@@ -5,7 +5,7 @@ import { ICountry } from '@country/country.interface';
 import { CountryMapper } from '@country/mappers/country.mapper';
 import { environment } from '@envs/environment';
 
-import { catchError, map, Observable, throwError } from 'rxjs';
+import { catchError, delay, map, Observable, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +35,7 @@ export class CountryService {
     return this.httpClient.get<ICountryDto[]>(`${environment.COUNTRY_URL}/${path}/${query}`)
       .pipe(
         map((dtos) => CountryMapper.toEntities(dtos)),
+        delay(500),
         catchError((err: HttpErrorResponse) => this.handleError(err, path))
       );
   }

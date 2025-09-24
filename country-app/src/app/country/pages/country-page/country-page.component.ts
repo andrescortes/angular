@@ -1,14 +1,15 @@
-import { Component, inject, resource } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { Component, inject } from '@angular/core';
+import { rxResource, toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
-import { firstValueFrom, map, tap } from 'rxjs';
+import { map, of } from 'rxjs';
 
-import { CountryListComponent } from '@country/country-list/country-list.component';
 import { CountryService } from '@country/country.service';
+import { NotFoundComponent } from "../../../shared/components/not-found/not-found.component";
+import { CountryInformationComponent } from "./country-information/country-information.component";
 
 @Component({
   selector: 'app-country-page',
-  imports: [ CountryListComponent ],
+  imports: [ NotFoundComponent, CountryInformationComponent],
   templateUrl: './country-page.component.html',
   styleUrl: './country-page.component.css'
 })
@@ -17,17 +18,14 @@ export class CountryPageComponent {
 
   param = toSignal(inject(ActivatedRoute)
     .params
-    .pipe(
-      tap(value => { console.log('value :>> ', value); }),
-      map(param => param[ 'country' ]),
-    )
+    .pipe(map(param => param[ 'country' ]),)
   );
 
-  countriesResource = resource({
+  countryResource = rxResource({
     request: () => ({ param: this.param() }),
-    loader: async ({ request }) => {
-      if (!request) return [];
-      return await firstValueFrom(this.countryService.byCca2(request.param));
+    loader: ({ request }) => {
+      if (!request) return of([]);
+      return this.countryService.byCca2(request.param);
     }
   });
 }

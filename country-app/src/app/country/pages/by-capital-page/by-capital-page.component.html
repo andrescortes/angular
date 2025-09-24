@@ -1,8 +1,15 @@
 <app-search-input [placeHolder]="'Search by Capital'" (searchValue)="query.set($event)" />
 
-@if (countryResource.error()) {
+<!-- @if (countryResource.error()) {
 <p class="text-2xl text-pretty p-4">{{countryResource.error()}}</p>
 }
 @if(countryResource.hasValue()) {
 <app-country-list [countries]="countryResource.value()" />
-}
+} -->
+
+<app-country-list 
+    [countries]="countryResource.value() ?? []" 
+    [errorMessage]="countryResource.error()"
+    [isLoading]="countryResource.isLoading()" 
+    [isEmpty]="countryResource.value()?.length === 0" 
+/>

@@ -4,12 +4,12 @@
             <!-- head -->
             <thead>
                 <tr>
-                    <th>#</th>
-                    <th>Icon</th>
-                    <th>Flag</th>
-                    <th>Name</th>
-                    <th>Capital</th>
-                    <th>Population</th>
+                    <th colspan="1">#</th>
+                    <th colspan="1">Icon</th>
+                    <th colspan="1">Flag</th>
+                    <th colspan="1">Name</th>
+                    <th colspan="1">Capital</th>
+                    <th colspan="1">Population</th>
                     <th>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                             <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -38,7 +38,27 @@
                     <td>
                         <span class="bagde badge-secondary">{{ country.population | number }}</span>
                     </td>
-                    <td><a [routerLink] = "['/country/by/', country.cca2]" class="link-primary cursor-pointer">more...</a></td>
+                    <td><a [routerLink]="['/country/by/', country.cca2]" class="link-primary cursor-pointer">more...</a>
+                    </td>
+                </tr>
+                }
+
+                @if (errorMessage()) {
+                <tr>
+                    <td colspan="8" class="text-center">{{ errorMessage() }}</td>
+                </tr>
+                }@else if (countries().length == 0 && !isLoading()) {
+                <tr>
+                    <td colspan="8" class="text-center">No data found</td>
+                </tr>
+                }
+                @if(isLoading()){
+                <tr>
+                    <td colspan="8" class="text-center">
+                        <div class="flex justify-center">
+                            <div class="btn btn-ghost loading"></div>
+                        </div>
+                    </td>
                 </tr>
                 }
             </tbody>

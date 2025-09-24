@@ -1,4 +1,4 @@
-@if (countriesResource.error()) {
+<!-- @if (countriesResource.error()) {
 <div class="alert alert-danger">Error: {{ countriesResource.error() }}</div>
 }
 
@@ -9,4 +9,10 @@
 }
 @if(countriesResource.hasValue()) {
 <app-country-list [countries]="countriesResource.value()" />
+} -->
+
+@if (countryResource.error()) {
+<app-not-found />
+} @if(countryResource.hasValue()) {
+<app-country-information [country]="countryResource.value().at(0)!"/>
 }

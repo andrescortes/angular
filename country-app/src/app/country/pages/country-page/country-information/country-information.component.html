@@ -1,0 +1,37 @@
+<section class="grid place-items-center">
+    <div class="card card-side bg-base-100 shadow-sm">
+        <figure>
+            <img class="object-contain" [src]="country().flags.svg" [alt]="country().flags.alt" />
+        </figure>
+        <div class="card-body">
+            <h2 class="card-title">
+                {{country().name}}
+                <div class="badge badge-secondary">{{ country().capital}}</div>
+            </h2>
+            <p>Population: {{ country().population | number}}</p>
+            <p>Region: {{ country().region}}</p>
+            <p>Subregion: {{ country().subregion}}</p>
+            <div>
+                <ul class="list bg-base-100 rounded-box shadow-md">
+                    <p>Some translations</p>
+                    @for (translation of getTranslation(); track $index) {
+                    <li class="p-1 text-xs opacity-70 tracking-wide">{{translation}}</li>
+                    }
+                </ul>
+            </div>
+            <div class="card-actions justify-end">
+                <a (click)="goBack()" class="badge badge-outline cursor-pointer">Go Back</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<figure class="diff aspect-16/9" tabindex="0">
+  <div class="diff-item-1" role="img" tabindex="0">
+    <img class="blur brightness-75" [src]="country().flags.svg" [alt]="country().flags.alt" />
+  </div>
+  <div class="diff-item-2" role="img">
+    <img [src]="country().flags.svg" [alt]="country().flags.alt" />
+  </div>
+  <div class="diff-resizer"></div>
+</figure>
