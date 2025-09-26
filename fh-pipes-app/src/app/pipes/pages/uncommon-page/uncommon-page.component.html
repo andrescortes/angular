@@ -1,1 +1,42 @@
-<p>uncommon-page works!</p>
+<section class="mx-5 my-5 text-center">
+    <h2 class="text-2xl font-bold">Uncommon Pipes</h2>
+    <h3 class="text-xl font-thin"> Pipes built-in on Angular</h3>
+</section>
+
+<section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+    <app-card title="i18nSelectPipe">
+        <p>Hi {{ client().gender | i18nSelect: invitationMap}} {{ client().name}}, It's a pleasure to invite you to our
+            event!</p>
+        <button (click)="changeClient()" class="btn btn-primary">Change client</button>
+    </app-card>
+
+    <app-card title="i18nPluralPipe">
+        <p>Currently, {{ clients().length | i18nPlural: clientsMapThere()}} {{ clients().length | i18nPlural: clientsMap() }} waiting</p>
+        <button [disabled]="clients().length ==0" (click)="removeClient()" class="btn btn-primary">Remove client</button>
+    </app-card>
+
+    <app-card *ngIf="clients().length > 0" title="SlicePipe">
+        <b>Original</b>
+        <p class="text-primary">{{ clients()}}</p>
+        <b class="mt-2">Slice: 0:2</b>
+        <p class="text-primary">{{ clients() | slice:0:2}}</p>
+        <b class="mt-2">Slice: 0:1</b>
+        <p class="text-primary">{{ clients() | slice:0:1}}</p>
+        <b class="mt-2">Slice: -2</b>
+        <p class="text-primary">{{ clients() | slice:-1}}</p>
+    </app-card>
+
+    <app-card title="JsonPipe">
+        <b>Original</b>
+        <pre class="text-primary">{{ clients()}}</pre>
+        <pre class="text-primary">{{ client()}}</pre>
+        <pre class="text-primary">{{ clients().join(", ")}}</pre>
+        <pre class="text-primary">{{ client() | json}}</pre>
+        <b>Using keyValuePipe, JsonPipe, UppercasePipe</b>
+        <pre class="text-primary">{{ client() | keyvalue | json | uppercase}}</pre>
+        <b>Keys</b>
+        <pre class="text-primary">{{ keys}}</pre>
+        <b>Values</b>
+        <pre class="text-primary">{{ values }}</pre>
+    </app-card>
+</section>
