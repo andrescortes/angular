@@ -1,1 +1,78 @@
-<p>basic-page works!</p>
+<section class="my-5 text-center">
+    <h2 class="text-2xl">Basic Pipes</h2>
+    <h3 class="text-xl">Basic Pipes built-in on Angular</h3>
+    <div class="stats shadow w-full">
+        <div class="stat place-items-center">
+            <div class="stat-title">Lowercase Pipe</div>
+            <div class="stat-value">{{nameLower() | lowercase}}</div>
+            <div class="stat-desc">{{nameUpper()}}</div>
+        </div>
+
+        <div class="stat place-items-center">
+            <div class="stat-title">Uppercase Pipe</div>
+            <div class="stat-value text-secondary">{{ nameLower() | uppercase}}</div>
+            <div class="stat-desc text-secondary">{{ nameUpper()}}</div>
+        </div>
+
+        <div class="stat place-items-center">
+            <div class="stat-title">Titlecase Pipe</div>
+            <div class="stat-value">{{ nameLower() | titlecase}}</div>
+            <div class="stat-desc">{{ fullName()}}</div>
+        </div>
+    </div>
+</section>
+
+<div class="divider"> </div>
+<h2 class="text-2xl text-center">Date Pipes</h2>
+<div class="stats shadow w-full">
+    <div class="stat place-items-center">
+        <div class="stat-title">Date Pipe</div>
+        <div class="stat-value">{{customDate() | date }}</div>
+        <div class="stat-desc">{{customDate()}}</div>
+    </div>
+
+    <div class="stat place-items-center">
+        <div class="stat-title">
+            <h3 class="text-xl text-center">Date</h3>
+            <p>short | medium | long | full | GMT-6</p>
+            <p>shortDate | mediumDate | longDate | fullDate |</p>
+            <p>shortTime | mediumTime | longTime |</p>
+        </div>
+        <div class="stat-value">{{customDate() | date: 'longTime': 'GMT-6' }}</div>
+        <div class="stat-desc">{{customDate()}}</div>
+    </div>
+</div>
+
+<div class="divider"></div>
+<h2 class="text-2xl text-center">Date Pipes</h2>
+<div class="stats shadow w-full">
+    <div class="stat place-items-center">
+        <div class="stat-title">Date Custom Pipe 'dd/MM/yyyy'</div>
+        <div class="stat-value">{{customDate() | date: 'dd/MM/yyyy' }}</div>
+        <div class="stat-desc">{{customDate()}}</div>
+    </div>
+    <div class="stat place-items-center">
+        <div class="stat-title">Date Custom Pipe 'EEEE d, MMMM'</div>
+        <div class="stat-value">{{customDate() | date: 'EEEE d, MMMM' }}</div>
+        <div class="stat-desc">{{customDate()}}</div>
+    </div>
+
+    <div class="stat place-items-center">
+        <div class="stat-title">
+            <h3 class="text-xl text-center">Date 'HH:mm:ss'</h3>
+            <p>short | medium | long | full | GMT-6</p>
+            <p>shortDate | mediumDate | longDate | fullDate |</p>
+            <p>shortTime | mediumTime | longTime |</p>
+        </div>
+        <div class="stat-value">{{customDate() | date: 'HH:mm:ss' }}</div>
+        <div class="stat-desc">{{customDate()}}</div>
+    </div>
+</div>
+
+<div class="divider"></div>
+<div class="gap-2 flex justify-center">
+    <h2 class="text-2xl font-bold text-center">Locale <span class="badge badge-secondary">{{localId()}}</span></h2>
+    <button (click)="setLocale('fr')" class="btn btn-primary">Change to French</button>
+    <button (click)="setLocale('es')" class="btn btn-primary">Change to Spanish</button>
+    <button (click)="setLocale('en-US')" class="btn btn-primary">Change to English</button>
+</div>
