@@ -1,6 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { CardComponent } from "../../components/card/card.component";
-import { I18nPluralPipe, I18nSelectPipe, JsonPipe, KeyValuePipe, NgIf, SlicePipe, UpperCasePipe } from '@angular/common';
+import { AsyncPipe, I18nPluralPipe, I18nSelectPipe, JsonPipe, KeyValuePipe, NgIf, SlicePipe, UpperCasePipe } from '@angular/common';
+import { interval, map, tap } from 'rxjs';
 
 const client = {
   name: 'Fernando',
@@ -18,7 +19,16 @@ const client2 = {
 
 @Component({
   selector: 'app-uncommon-page',
-  imports: [ CardComponent, I18nSelectPipe, I18nPluralPipe, SlicePipe, NgIf, JsonPipe, KeyValuePipe, UpperCasePipe ],
+  imports: [ 
+    CardComponent, 
+    I18nSelectPipe, 
+    I18nPluralPipe, 
+    SlicePipe, NgIf, 
+    JsonPipe, 
+    KeyValuePipe, 
+    UpperCasePipe,
+    AsyncPipe
+  ],
   templateUrl: './uncommon-page.component.html',
   styleUrl: './uncommon-page.component.css'
 })
@@ -76,4 +86,29 @@ export class UncommonPageComponent {
   get values() {
     return Object.values(client);
   }
+
+  // Async pipe
+  promiseValue: Promise<string> = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve('Hello World');
+      console.log('Promise finalized :>>');
+    }, 3500);
+  });
+
+  changeAsyncValue(): void {
+    this.promiseValue = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve('Hello World 2');
+        console.log('Promise finalized :>>');
+      }, 3500);
+    });
+  }
+
+  myObservable = interval(2000)
+  .pipe(
+    tap({
+      next: value => console.log('next', value),
+    }),
+    map(value => value * 2)
+  )
 }

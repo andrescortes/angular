@@ -11,8 +11,10 @@
     </app-card>
 
     <app-card title="i18nPluralPipe">
-        <p>Currently, {{ clients().length | i18nPlural: clientsMapThere()}} {{ clients().length | i18nPlural: clientsMap() }} waiting</p>
-        <button [disabled]="clients().length ==0" (click)="removeClient()" class="btn btn-primary">Remove client</button>
+        <p>Currently, {{ clients().length | i18nPlural: clientsMapThere()}} {{ clients().length | i18nPlural:
+            clientsMap() }} waiting</p>
+        <button [disabled]="clients().length ==0" (click)="removeClient()" class="btn btn-primary">Remove
+            client</button>
     </app-card>
 
     <app-card *ngIf="clients().length > 0" title="SlicePipe">
@@ -38,5 +40,17 @@
         <pre class="text-primary">{{ keys}}</pre>
         <b>Values</b>
         <pre class="text-primary">{{ values }}</pre>
+    </app-card>
+    <app-card title="AsyncPipe with promises">
+        <p>Current value: {{ promiseValue | async }}</p>
+        @if (promiseValue | async; as value) {
+        <p class="text-primary">{{ value }}</p>
+        }
+        <button (click)="changeAsyncValue()" class="btn btn-primary">Change async value</button>
+    </app-card>
+
+    <app-card title="AsyncPipe with Observables">
+        <p>Current value: <strong class="text-primary">{{ myObservable | async }}</strong> </p>
+
     </app-card>
 </section>
