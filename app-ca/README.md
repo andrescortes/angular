@@ -1,6 +1,58 @@
-# AppCa
+# App-Ca
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.17.
+
+## Clean architecture with Angular
+
+```text
+src/
+└── app/
+    ├── core/                          # Shared infrastructure
+    │   ├── base/
+    │   │   ├── use-case.base.ts       # Base use case interface
+    │   │   ├── mapper.base.ts         # Base mapper for data transformation
+    │   │   └── repository.base.ts     # Base repository interface
+    │   └── presentation/
+    │       ├── components/            # Shared UI components
+    │       └── guards/                # Route guards
+    │
+    └── user/                          # User bounded context (feature)
+        ├── domain/                    # Layer 1: Business Logic
+        │   ├── models/
+        │   │   └── user.model.ts      # Domain entity
+        │   └── repositories/
+        │       └── user.repository.ts # Repository interface
+        │
+        ├── application/               # Layer 2: Use Cases
+        │   └── usecases/
+        │       ├── get-user.usecase.ts
+        │       ├── create-user.usecase.ts
+        │       └── update-user.usecase.ts
+        │
+        ├── infrastructure/            # Layer 3: Technical Implementation
+        │   ├── entities/
+        │   │   └── user.entity.ts     # API/Database entity
+        │   ├── mappers/
+        │   │   └── user.mapper.ts     # Entity to Model mapper
+        │   └── repositories/
+        │       └── user-impl.repository.ts # Repository implementation
+        │
+        └── presentation/              # Layer 4: UI Components
+            ├── pages/
+            │   ├── user-list/
+            │   │   ├── user-list.component.ts
+            │   │   ├── user-list.component.html
+            │   │   └── user-list.component.css
+            │   └── user-detail/
+            │       ├── user-detail.component.ts
+            │       ├── user-detail.component.html
+            │       └── user-detail.component.css
+            └── components/           # Presentational components
+                └── user-card/
+                    ├── user-card.component.ts
+                    ├── user-card.component.html
+                    └── user-card.component.css
+```
 
 ## Development server
 
