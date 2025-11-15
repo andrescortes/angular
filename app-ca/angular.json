@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "fh-reactive-forms-app": {
+    "app-ca": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/fh-reactive-forms-app",
+            "outputPath": "dist/app-ca",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -59,10 +59,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "fh-reactive-forms-app:build:production"
+              "buildTarget": "app-ca:build:production"
             },
             "development": {
-              "buildTarget": "fh-reactive-forms-app:build:development"
+              "buildTarget": "app-ca:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -94,6 +94,6 @@
     }
   },
   "cli": {
-    "analytics": "e6950a02-19b7-401f-858b-9d3ecb3ee5de"
+    "analytics": "07908ee7-13f9-4ea8-9e5b-ffdb88623873"
   }
 }
