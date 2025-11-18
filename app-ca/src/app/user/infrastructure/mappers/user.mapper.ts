@@ -11,18 +11,18 @@ export class UserMapper extends Mapper<UserEntity, UserModel> {
   override mapFrom(entity: UserEntity): UserModel {
     return {
       id: entity.id,
-      name: entity.full_name,
-      email: entity.email_address,
-      createAt: new Date(entity.create_date)
+      name: entity.name,
+      email: entity.email,
+      createAt: new Date(entity.createdAt)
     };
   }
 
   override mapTo(model: UserModel): UserEntity {
     return {
       id: model.id,
-      full_name: model.name,
-      email_address: model.email,
-      create_date: model.createAt.toISOString()
+      name: model.name,
+      email: model.email,
+      createdAt: model.createAt.toISOString()
     }
   }
 }
