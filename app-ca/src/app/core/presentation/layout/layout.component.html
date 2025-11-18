@@ -1,0 +1,23 @@
+<div class="grid h-screen
+            grid-rows-[80px_1fr_60px]
+            md:grid-rows-[80px_1fr_80px]
+            grid-cols-2
+            md:grid-cols-[250px_1fr]">
+
+  <app-header class="row-span-1 col-span-full bg-indigo-600" />
+  <mat-sidenav-container class="row-span-1 col-span-full">
+    <mat-sidenav #sidenav mode="side" opened class="nav">
+      <app-sidenav />
+    </mat-sidenav>
+
+    <button mat-button (click)="sidenav.toggle()">
+      @if (sidenav.opened) {
+        <mat-icon>menu_open</mat-icon>
+      } @else {
+        <mat-icon>menu</mat-icon>
+      }
+    </button>
+    <router-outlet />
+  </mat-sidenav-container>
+  <app-footer class="row-span-1 col-span-full" />
+</div>

@@ -1,0 +1,19 @@
+.nav {
+  width: 200px;
+}
+
+@media (min-width: 768px) {
+  .nav {
+    width: 350px;
+  }
+}
+
+.mat-sidenav {
+  border-right: 1px solid #bfbfcc;
+}
+
+
+
+
+
+
