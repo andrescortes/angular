@@ -1,17 +1,34 @@
 import { Routes } from '@angular/router';
+import { LayoutComponent } from './core/presentation/layout/layout.component';
+import { USER_ROUTES } from './user/user.routes';
 
 export const routes: Routes = [
   {
-    path: 'users',
-    loadChildren: () => import('./user/user.routes').then(r => r.USER_ROUTES)
+    path: 'main',
+    component: LayoutComponent,
+    children: [
+      {
+        path: 'users',
+        children: USER_ROUTES
+      },
+      {
+        path: '',
+        redirectTo: 'users',
+        pathMatch: 'full'
+      },
+      {
+        path: '**',
+        redirectTo: 'users'
+      }
+    ],
   },
   {
     path: '',
-    redirectTo: 'users',
+    redirectTo: 'main',
     pathMatch: 'full'
   },
   {
     path: '**',
-    redirectTo: 'users'
+    redirectTo: 'main'
   }
 ];

@@ -1,25 +1,28 @@
 import { Routes } from "@angular/router";
-import { UserHomeComponent } from "./presentation/pages/user-home/user-home.component";
-import { UserListComponent } from "./presentation/components/user-list/user-list.component";
 
 export const USER_ROUTES: Routes = [
   {
     path: '',
-    component: UserHomeComponent,
-    children: [
-      {
-        path: 'list',
-        component: UserListComponent
-      },
-      {
-        path: '',
-        redirectTo: 'list',
-        pathMatch: 'full'
-      },
-      {
-        path: '**',
-        redirectTo: 'list'
-      }
-    ]
+    loadComponent: () => import('./presentation/components/user-list/user-list.component')
+      .then(m => m.UserListComponent)
+  },
+  {
+    path: 'add',
+    loadComponent: () => import('./presentation/components/add-user/add-user.component')
+      .then(m => m.AddUserComponent)
+  },
+  {
+    path: 'edit/:id',
+    loadComponent: () => import('./presentation/components/edit-user/edit-user.component')
+      .then(m => m.EditUserComponent)
+  },
+  {
+    path: '',
+    redirectTo: '',
+    pathMatch: 'full'
+  },
+  {
+    path: '**',
+    redirectTo: ''
   }
 ]
