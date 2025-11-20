@@ -12,11 +12,6 @@ export const USER_ROUTES: Routes = [
       .then(m => m.AddUserComponent)
   },
   {
-    path: 'edit/:id',
-    loadComponent: () => import('./presentation/components/edit-user/edit-user.component')
-      .then(m => m.EditUserComponent)
-  },
-  {
     path: '',
     redirectTo: '',
     pathMatch: 'full'

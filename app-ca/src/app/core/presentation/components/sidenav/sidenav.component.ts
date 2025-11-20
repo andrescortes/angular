@@ -44,11 +44,6 @@ export class SidenavComponent {
           name: 'Add User',
           url: '/main/users/add',
           icon: 'person_add'
-        },
-        {
-          name: 'Edit User',
-          url: '/main/users/edit/1',
-          icon: 'edit'
         }
       ]
     },

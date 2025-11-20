@@ -27,7 +27,7 @@ export class UserRepositoryImpl extends UserRepository {
   }
 
   override getUserById(id: string): Observable<UserModel> {
-    return this.httpClient.get<UserEntity>(`${this.URL_USERS}/${id}`)
+    return this.httpClient.get<UserEntity>(`${this.URL_USERS}/users/${id}`)
       .pipe(
         map((entity) => this.userMapper.mapFrom(entity))
       );
@@ -35,21 +35,21 @@ export class UserRepositoryImpl extends UserRepository {
 
   override createUser(user: Omit<UserModel, 'id'>): Observable<UserModel> {
     const entity = this.userMapper.mapTo({ ...user, id: '' } as UserModel);
-    return this.httpClient.post<UserEntity>(this.URL_USERS, entity)
+    return this.httpClient.post<UserEntity>(`${this.URL_USERS}/users`, entity)
       .pipe(
         map((entity) => this.userMapper.mapFrom(entity))
       );
   }
 
   override updateUser(id: string, user: Partial<UserModel>): Observable<UserModel> {
-    return this.httpClient.patch<UserEntity>(`${this.URL_USERS}/${id}`, user)
+    return this.httpClient.patch<UserEntity>(`${this.URL_USERS}/users/${id}`, user)
       .pipe(
         map((entity) => this.userMapper.mapFrom(entity))
       );
   }
 
   override deleteUser(id: string): Observable<boolean> {
-    return this.httpClient.delete(`${this.URL_USERS}/${id}`)
+    return this.httpClient.delete(`${this.URL_USERS}/users/${id}`)
       .pipe(
         map(() => true)
       );
