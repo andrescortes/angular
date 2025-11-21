@@ -9,14 +9,15 @@
     <mat-sidenav #sidenav mode="side" opened class="nav">
       <app-sidenav />
     </mat-sidenav>
-
-    <button mat-button (click)="sidenav.toggle()">
-      @if (sidenav.opened) {
+    <div class="fixed top-4 left-4">
+      <button mat-mini-fab (click)="sidenav.toggle()">
+        @if (sidenav.opened) {
         <mat-icon>menu_open</mat-icon>
-      } @else {
+        } @else {
         <mat-icon>menu</mat-icon>
-      }
-    </button>
+        }
+      </button>
+    </div>
     <router-outlet />
   </mat-sidenav-container>
   <app-footer class="row-span-1 col-span-full" />

@@ -18,7 +18,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-edit-user',
-  providers: [ provideNativeDateAdapter() ],
+  providers: [provideNativeDateAdapter()],
   imports: [
     MatFormFieldModule,
     MatInputModule,
@@ -41,10 +41,10 @@ export class EditUserComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
 
   userForm = this.fb.group({
-    id: [ '' ],
-    name: [ '', [ Validators.required, Validators.minLength(3) ] ],
-    email: [ '', [ Validators.required, Validators.email ] ],
-    createdAt: [ '', [ Validators.required ] ],
+    id: [''],
+    name: ['', [Validators.required, Validators.minLength(3)]],
+    email: ['', [Validators.required, Validators.email]],
+    createdAt: ['', [Validators.required]],
   });
   errorMessage: Map<string, string> = new Map();
 
@@ -81,7 +81,7 @@ export class EditUserComponent implements OnInit {
     const control = this.userForm.get(field);
 
     if (control && control.errors) {
-      const firstKey = Object.keys(control.errors)[ 0 ];
+      const firstKey = Object.keys(control.errors)[0];
       this.buildErrorMessages(field, firstKey);
     }
   }
