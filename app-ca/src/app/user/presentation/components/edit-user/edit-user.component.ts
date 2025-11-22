@@ -66,7 +66,7 @@ export class EditUserComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.data) {
-      this.loadUser();
+      this.loadUserForm();
     }
   }
 
@@ -104,16 +104,16 @@ export class EditUserComponent implements OnInit {
       ...this.data,
       name: name!,
       email: email!,
-      createAt: new Date(createdAt!),
+      createdAt: createdAt!,
     }
   }
 
-  loadUser(): void {
+  loadUserForm(): void {
     this.userForm.patchValue({
       id: this.data.id,
       name: this.data.name,
       email: this.data.email,
-      createdAt: this.data.createAt.toDateString(),
+      createdAt: new Date(this.data.createdAt).toISOString(),
     });
   }
 }

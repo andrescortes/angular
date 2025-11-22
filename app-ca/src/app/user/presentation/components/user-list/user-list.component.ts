@@ -1,4 +1,4 @@
-import { DatePipe, TitleCasePipe } from '@angular/common';
+import { DatePipe, formatDate, TitleCasePipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { UserUseCase } from '../../../application/usecases/user.usecase';
 import { UserModel } from '../../../domain/models';
@@ -9,7 +9,7 @@ import { EditUserComponent } from '../edit-user/edit-user.component';
 
 @Component({
   selector: 'app-user-list',
-  imports: [ DatePipe, TitleCasePipe, MatIconModule, MatButtonModule, ],
+  imports: [DatePipe, TitleCasePipe, MatIconModule, MatButtonModule],
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.css'
 })
@@ -55,6 +55,8 @@ export class UserListComponent implements OnInit {
     dialogRef.afterClosed().subscribe({
       next: (userUpdated: UserModel) => {
         if (userUpdated) {
+          const formattedDate = formatDate(userUpdated.createdAt, 'yyyy-MM-dd', 'en-US');
+          userUpdated.createdAt = formattedDate;
           this.userUsecase.updateUser(userUpdated.id, userUpdated).subscribe({
             next: user => {
               this.users = this.users.map(u => u.id === user.id ? user : u);

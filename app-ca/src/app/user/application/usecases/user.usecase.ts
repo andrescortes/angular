@@ -11,7 +11,6 @@ export class UserUseCase implements UserBaseUseCase<UserModel, UserModel> {
   private readonly userRepository = inject(UserRepository);
 
   constructor() {
-    console.log('UserUseCase initialized');
   }
 
   users(): Observable<UserModel[]> {

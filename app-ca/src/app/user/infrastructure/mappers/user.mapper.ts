@@ -13,7 +13,7 @@ export class UserMapper extends Mapper<UserEntity, UserModel> {
       id: entity.id,
       name: entity.name,
       email: entity.email,
-      createAt: new Date(entity.createdAt)
+      createdAt: entity.createdAt
     };
   }
 
@@ -22,7 +22,7 @@ export class UserMapper extends Mapper<UserEntity, UserModel> {
       id: model.id,
       name: model.name,
       email: model.email,
-      createdAt: model.createAt.toISOString()
+      createdAt: model.createdAt
     }
   }
 }
