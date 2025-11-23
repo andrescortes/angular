@@ -1,17 +1,24 @@
 import { DatePipe, formatDate, TitleCasePipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { UserUseCase } from '../../../application/usecases/user.usecase';
-import { UserModel } from '../../../domain/models';
-import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { UserUseCase } from '../../../application/usecases/user.usecase';
+import { UserModel } from '../../../domain/models';
 import { EditUserComponent } from '../edit-user/edit-user.component';
 
 @Component({
   selector: 'app-user-list',
-  imports: [DatePipe, TitleCasePipe, MatIconModule, MatButtonModule],
+  imports: [
+    DatePipe,
+    TitleCasePipe,
+    MatIconModule,
+    MatButtonModule,
+    MatProgressSpinnerModule,
+  ],
   templateUrl: './user-list.component.html',
-  styleUrl: './user-list.component.css'
+  styleUrl: './user-list.component.css',
 })
 export class UserListComponent implements OnInit {
   private readonly userUsecase = inject(UserUseCase);
@@ -24,21 +31,21 @@ export class UserListComponent implements OnInit {
 
   loadUsers(): void {
     this.userUsecase.users().subscribe((users) => {
-      this.users = users;
+      this.users = structuredClone(users);
     });
   }
 
   deleteUser(userId: string): void {
     this.userUsecase.deleteUser(userId).subscribe({
-      next: isDeleted => {
+      next: (isDeleted) => {
         if (isDeleted) {
           this.loadUsers();
         }
       },
-      error: err => {
+      error: (err) => {
         console.error('Error deleting user:', err);
-      }
-    })
+      },
+    });
   }
 
   openDialog(user: UserModel): void {
@@ -55,18 +62,22 @@ export class UserListComponent implements OnInit {
     dialogRef.afterClosed().subscribe({
       next: (userUpdated: UserModel) => {
         if (userUpdated) {
-          const formattedDate = formatDate(userUpdated.createdAt, 'yyyy-MM-dd', 'en-US');
+          const formattedDate = formatDate(
+            userUpdated.createdAt,
+            'yyyy-MM-dd',
+            'en-US',
+          );
           userUpdated.createdAt = formattedDate;
           this.userUsecase.updateUser(userUpdated.id, userUpdated).subscribe({
-            next: user => {
-              this.users = this.users.map(u => u.id === user.id ? user : u);
-            }
-          })
+            next: (user) => {
+              this.users = this.users.map((u) => (u.id === user.id ? user : u));
+            },
+          });
         }
       },
-      error: err => {
+      error: (err) => {
         console.error('Error after closing dialog:', err);
-      }
+      },
     });
   }
 }

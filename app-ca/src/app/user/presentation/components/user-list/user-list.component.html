@@ -1,27 +1,48 @@
-<div class="bg-gray-200  flex items-center justify-center flex-col rounded-lg">
+<div class="bg-gray-200 flex items-center justify-center flex-col rounded-lg">
   <h2 class="text-2xl font-bold mb-4">User List</h2>
   @if (users.length > 0) {
-  <div class="flex flex-col md:flex-row md:flex-wrap justify-center gap-2">
-    @for (user of users; track user.id) {
-    <div class="bg-white w-3/4 md:w-md text-black rounded-lg shadow-md p-4 mb-4">
-      <div class="flex">
-        <h3 class="text-xl font-semibold mb-2">{{user.name | titlecase}}</h3>
-        <div class="flex ml-auto gap-2">
-          <button mat-mini-fab aria-label="edit-button" (click)="openDialog(user)">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button mat-mini-fab aria-label="delete-button" (click)="deleteUser(user.id)">
-            <mat-icon>delete</mat-icon>
-          </button>
+    <div class="flex flex-col md:flex-row md:flex-wrap justify-center gap-2">
+      @for (user of users; track user.id) {
+        <div
+          class="bg-white w-3/4 md:w-md text-black rounded-lg shadow-md p-4 mb-4"
+        >
+          <div class="flex">
+            <h3 class="text-xl font-semibold mb-2">
+              {{ user.name | titlecase }}
+            </h3>
+            <div class="flex ml-auto gap-2">
+              <button
+                type="button"
+                mat-mini-fab
+                aria-label="edit-button"
+                (click)="openDialog(user)"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button
+                type="button"
+                mat-mini-fab
+                aria-label="delete-button"
+                (click)="deleteUser(user.id)"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+          <p class="mb-1"><strong>Id:</strong> {{ user.id }}</p>
+          <p class="mb-1"><strong>Email:</strong> {{ user.email }}</p>
+          <p class="mb-1">
+            <strong>Created At:</strong>
+            {{ user.createdAt | date: "yyyy-MM-dd" }}
+          </p>
         </div>
-      </div>
-      <p class="mb-1"><strong>Id:</strong> {{user.id}}</p>
-      <p class="mb-1"><strong>Email:</strong> {{user.email}}</p>
-      <p class="mb-1"><strong>Created At:</strong> {{user.createdAt | date:'yyyy-MM-dd'}}</p>
+      }
     </div>
-    }
-  </div>
-  } @else {
-  <p>No users found.</p>
   }
 </div>
+
+@if (users.length == 0) {
+  <div class="flex items-center justify-center h-full">
+    <mat-spinner></mat-spinner>
+  </div>
+}
