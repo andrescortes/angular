@@ -1,8 +1,7 @@
 {
   // Use default VS Code marketplace
-  "extensions.autoUpdate": true,
-  "extensions.autoCheckUpdates": true,
   "cSpell.words": [
-    "Usecase"
+    "Usecase",
+    "usecases"
   ]
 }
