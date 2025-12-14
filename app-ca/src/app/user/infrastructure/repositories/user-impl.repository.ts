@@ -17,6 +17,7 @@ export class UserRepositoryImpl extends UserRepository {
 
   constructor() {
     super();
+    console.log('URL_USERS: ', this.URL_USERS);
   }
 
   override getUsers(): Observable<UserModel[]> {

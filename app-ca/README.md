@@ -54,6 +54,11 @@ src/
                     └── user-card.component.css
 ```
 
+## Docker
+```bash
+    docker build . -t devcoderjava/app-ca-fr:1.0 && docker push devcoderjava/app-ca-fr:1.0
+```
+
 ## Development server
 
 To start a local development server, run:
