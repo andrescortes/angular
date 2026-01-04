@@ -1,4 +1,5 @@
 import { FormArray, ValidationErrors } from '@angular/forms';
+import { MIN, MIN_LENGTH, REQUIRED } from './const.util';
 
 export class FormUtils {
   static isValidField(field: string, form: any): boolean {
@@ -7,6 +8,8 @@ export class FormUtils {
 
   static getErrorsField(field: string, form: any): string {
     const errors: ValidationErrors = form.controls[field].errors || {};
+    console.log('errors: ', errors);
+
     return this.buildErrorMessage(errors);
   }
 
@@ -31,12 +34,12 @@ export class FormUtils {
   private static buildErrorMessage(errors: ValidationErrors): string {
     for (const key of Object.keys(errors)) {
       switch (key) {
-        case 'required':
+        case REQUIRED:
           return 'Este campo es requerido';
-        case 'minlength':
-          return `El campo debe tener al menos ${errors['minlength'].requiredLength} letras`;
-        case 'min':
-          return `El campo debe ser mayor a ${errors['min'].min}`;
+        case MIN_LENGTH:
+          return `El campo debe tener al menos ${errors[MIN_LENGTH].requiredLength} letras`;
+        case MIN:
+          return `El campo debe ser mayor a ${errors[MIN].min}`;
       }
     }
     return '';
