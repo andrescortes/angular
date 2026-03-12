@@ -1,12 +1,12 @@
-import { patchState, signalStore, withComputed, withHooks, withMethods, withState } from "@ngrx/signals";
+import { inject } from "@angular/core";
+import { patchState, signalStore, withHooks, withMethods, withState } from "@ngrx/signals";
 import { firstValueFrom } from "rxjs";
-import { computed, inject } from "@angular/core";
 
+import { IChannel } from "@core/interfaces";
+import { IptvService } from "@features/iptv/services/iptv.service";
+import { withLogger } from "@store/common/with-logger";
+import { withRequestStatus, setPending, setFulfilled, setError } from "@store/common/with-request-status";
 import { initialChannelState } from "./state/channel.state";
-import { withLogger } from "../common/with-logger";
-import { setError, setFulfilled, setPending, withRequestStatus } from "../common/with-request-status";
-import { IptvService } from "../../features/iptv/services/iptv.service";
-import { Channel } from "../../core/interfaces/Channel.interface";
 
 export const ChannelStore = signalStore(
   { providedIn: 'root' },
@@ -31,7 +31,7 @@ export const ChannelStore = signalStore(
         channels: state.channels.filter(channel => channel.id !== channelId),
       }));
     },
-    addAllChannels(channels: Channel[]): void {
+    addAllChannels(channels: IChannel[]): void {
       patchState(store, (state) => ({
         channels: [...state.channels, ...channels],
       }));

@@ -3,6 +3,24 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "@core/*": [
+        "app/core/*"
+      ],
+      "@shared/*": [
+        "app/shared/*"
+      ],
+      "@features/iptv/*": [
+        "app/features/iptv/*"
+      ],
+      "@store/*": [
+        "app/store/*"
+      ],
+      "@env/*": [
+        "environments/*"
+      ]
+    },
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,

@@ -1,4 +1,4 @@
-export interface IChannel {
+export interface IChannelGroup {
   id: string;
   name: string;
   url: string;

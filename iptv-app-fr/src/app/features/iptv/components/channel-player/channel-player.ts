@@ -13,13 +13,16 @@ import {
   SimpleChanges,
   ViewChild
 } from '@angular/core';
+
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
+import { IChannel } from '@core/interfaces';
+import { ChannelStore } from '@store/iptv/channel.store';
+
 import Hls, { ErrorData } from 'hls.js';
-import { Channel } from '../../../../core/interfaces/Channel.interface';
-import { ChannelStore } from '../../../../store/iptv/channel.store';
 
 @Component({
   selector: 'app-channel-player',
@@ -32,7 +35,8 @@ export class ChannelPlayer implements AfterViewInit, OnChanges {
   private readonly destroyRef = inject(DestroyRef);
   readonly store = inject(ChannelStore);
   private hls: Hls | null = null;
-  channel = input<Channel>();
+
+  channel = input<IChannel>();
   errorMessage = signal<string | null>(null);
   channelName = computed(() => this.channel()?.name ?? 'Loading channel…');
   retryToken = input<number>(0);
@@ -57,11 +61,11 @@ export class ChannelPlayer implements AfterViewInit, OnChanges {
       return;
     }
 
-     if (changes['channel'] && !changes['channel'].firstChange) {
+    if (changes[ 'channel' ] && !changes[ 'channel' ].firstChange) {
       this.initPlayer();
     }
 
-    if (changes['retryToken'] && !changes['retryToken'].firstChange) {
+    if (changes[ 'retryToken' ] && !changes[ 'retryToken' ].firstChange) {
       this.initPlayer();
     }
   }
@@ -81,12 +85,12 @@ export class ChannelPlayer implements AfterViewInit, OnChanges {
       this.hls.attachMedia(videoEl);
 
       this.hls.on(Hls.Events.MANIFEST_PARSED, () => {
-        videoEl.muted = true; // Mute the video to allow autoplay without user interaction
+        videoEl.muted = true;
         videoEl?.play().then(() => {
           videoEl.pause();
           this.playingEmitter.emit();
         })
-          .catch((err) => {
+          .catch(() => {
             this.errorEmitter.emit('An error occurred while playing the stream.');
           }
           );
@@ -105,10 +109,10 @@ export class ChannelPlayer implements AfterViewInit, OnChanges {
 
       videoEl.play().then(() => {
         videoEl.muted = true;
-        videoEl.pause(); // Mute the video to allow autoplay without user interaction
+        videoEl.pause();
         this.playingEmitter.emit();
       })
-        .catch((err) => {
+        .catch(() => {
           this.errorEmitter.emit('An error occurred while playing the stream.');
         });
 
@@ -131,16 +135,15 @@ export class ChannelPlayer implements AfterViewInit, OnChanges {
     if (data.fatal) {
       switch (data.type) {
         case Hls.ErrorTypes.NETWORK_ERROR:
-          this.errorMessage.set('Canal no disponible (error de red / 403 / 404).');
+          this.errorMessage.set('Channel unavailable (network error / 403 / 404).');
           break;
         case Hls.ErrorTypes.MEDIA_ERROR:
-          this.errorMessage.set('Error de media al reproducir este canal.');
+          this.errorMessage.set('Media error while playing this channel.');
           this.hls?.recoverMediaError();
           return;
         default:
-          this.errorMessage.set('Error fatal al reproducir este canal.');
+          this.errorMessage.set('Fatal error while playing this channel.');
       }
-
       this.hls?.destroy();
     }
   }

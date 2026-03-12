@@ -1,5 +1,5 @@
-import { Channel } from "../../../core/interfaces/Channel.interface"
+import { IChannel } from "../../../core/interfaces/channel.interface"
 
 export type ChannelType = {
-  channels: Channel[];
+  channels: IChannel[];
 }
