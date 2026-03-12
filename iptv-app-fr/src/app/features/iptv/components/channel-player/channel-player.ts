@@ -1,0 +1,147 @@
+import { CommonModule } from '@angular/common';
+import {
+  AfterViewInit,
+  Component,
+  computed,
+  DestroyRef,
+  ElementRef,
+  inject,
+  input,
+  OnChanges,
+  output,
+  signal,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import Hls, { ErrorData } from 'hls.js';
+import { Channel } from '../../../../core/interfaces/Channel.interface';
+import { ChannelStore } from '../../../../store/iptv/channel.store';
+
+@Component({
+  selector: 'app-channel-player',
+  imports: [ CommonModule, MatExpansionModule, MatListModule, MatIconModule, MatProgressSpinnerModule ],
+  templateUrl: './channel-player.html',
+  styleUrl: './channel-player.css',
+})
+export class ChannelPlayer implements AfterViewInit, OnChanges {
+  @ViewChild('video', { static: false }) videoElement?: ElementRef<HTMLVideoElement>;
+  private readonly destroyRef = inject(DestroyRef);
+  readonly store = inject(ChannelStore);
+  private hls: Hls | null = null;
+  channel = input<Channel>();
+  errorMessage = signal<string | null>(null);
+  channelName = computed(() => this.channel()?.name ?? 'Loading channel…');
+  retryToken = input<number>(0);
+  errorEmitter = output<string>();
+  playingEmitter = output<void>();
+  isViewReady = signal(false);
+
+  constructor() {
+    this.destroyRef.onDestroy(() => {
+      this.destroyPlayer();
+    });
+  }
+
+  ngAfterViewInit(): void {
+    this.isViewReady.set(true);
+    this.initPlayer();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log('changes->', changes);
+    if (!this.isViewReady()) {
+      return;
+    }
+
+     if (changes['channel'] && !changes['channel'].firstChange) {
+      this.initPlayer();
+    }
+
+    if (changes['retryToken'] && !changes['retryToken'].firstChange) {
+      this.initPlayer();
+    }
+  }
+
+  private initPlayer(): void {
+    const channel = this.channel();
+    const videoEl = this.videoElement?.nativeElement;
+    if (!channel?.url || !videoEl) {
+      this.errorMessage.set('No stream URL available for this channel.');
+      return;
+    }
+    if (Hls.isSupported()) {
+      this.hls = new Hls({
+        enableWorker: true,
+      });
+      this.hls.loadSource(channel.url);
+      this.hls.attachMedia(videoEl);
+
+      this.hls.on(Hls.Events.MANIFEST_PARSED, () => {
+        videoEl.muted = true; // Mute the video to allow autoplay without user interaction
+        videoEl?.play().then(() => {
+          videoEl.pause();
+          this.playingEmitter.emit();
+        })
+          .catch((err) => {
+            this.errorEmitter.emit('An error occurred while playing the stream.');
+          }
+          );
+      });
+
+      this.hls.on(Hls.Events.ERROR, (_, data) => {
+        if (data.type === Hls.ErrorTypes.NETWORK_ERROR && data.fatal) {
+          console.log('Deleting channel with name', channel.name);
+          this.store.removeChannel(channel.id);
+        }
+        this.destroyPlayer();
+      });
+
+    } else if (videoEl.canPlayType('application/vnd.apple.mpegurl')) {
+      videoEl.src = channel.url;
+
+      videoEl.play().then(() => {
+        videoEl.muted = true;
+        videoEl.pause(); // Mute the video to allow autoplay without user interaction
+        this.playingEmitter.emit();
+      })
+        .catch((err) => {
+          this.errorEmitter.emit('An error occurred while playing the stream.');
+        });
+
+      videoEl.addEventListener('error', () => {
+        this.errorMessage.set('An error occurred while loading the stream.');
+      });
+    } else {
+      this.errorMessage.set('HLS is not supported in this browser.');
+    }
+  }
+
+  private destroyPlayer(): void {
+    if (this.hls) {
+      this.hls.destroy();
+      this.hls = null;
+    }
+  }
+
+  setupError(data: ErrorData): void {
+    if (data.fatal) {
+      switch (data.type) {
+        case Hls.ErrorTypes.NETWORK_ERROR:
+          this.errorMessage.set('Canal no disponible (error de red / 403 / 404).');
+          break;
+        case Hls.ErrorTypes.MEDIA_ERROR:
+          this.errorMessage.set('Error de media al reproducir este canal.');
+          this.hls?.recoverMediaError();
+          return;
+        default:
+          this.errorMessage.set('Error fatal al reproducir este canal.');
+      }
+
+      this.hls?.destroy();
+    }
+  }
+}

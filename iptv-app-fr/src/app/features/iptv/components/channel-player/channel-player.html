@@ -1,0 +1,10 @@
+<div class="player-container">
+  <h3>{{ channelName() }}</h3>
+
+  <video #video controls autoplay playsinline></video>
+  @if(errorMessage()){
+  <p class="error">
+    {{ errorMessage() }}
+  </p>
+  }
+</div>
