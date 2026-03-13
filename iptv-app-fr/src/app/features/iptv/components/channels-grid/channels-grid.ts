@@ -1,13 +1,13 @@
-import { Component, inject, input, signal } from '@angular/core';
+import { Component, computed, inject, OnInit } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 
-import { IChannel } from '@core/interfaces';
-import { ChannelStore } from '@store/iptv/channel.store';
+import { ChannelGroupStore } from '@store/iptv';
 import { ChannelPlayer } from '../channel-player/channel-player';
+import { LocalStorageService } from '@features/iptv/services/local-storage.service';
 
 @Component({
   selector: 'app-channels-grid',
@@ -21,24 +21,19 @@ import { ChannelPlayer } from '../channel-player/channel-player';
   templateUrl: './channels-grid.html',
   styleUrl: './channels-grid.css',
 })
-export class ChannelsGrid {
-  private retryCounter = signal(0);
-  readonly store = inject(ChannelStore);
+export class ChannelsGrid implements OnInit {
+  readonly store = inject(ChannelGroupStore);
+  private readonly localStorage = inject(LocalStorageService);
 
-  channels = input<IChannel[]>([]);
-  errorMessage = signal<string | null>(null);
-  retryToken = this.retryCounter.asReadonly();
+  ngOnInit(): void {
+    const groups = this.localStorage.getChannelGroups();
+    console.log('groups: ', groups);
 
-  error(message: string): void {
-    this.errorMessage.set(message);
-  }
-
-  onPlaying(): void {
-    this.errorMessage.set(null);
-  }
-
-  retry(): void {
-    this.errorMessage.set(null);
-    this.retryCounter.update(n => n + 1);
+    if (groups.length) {
+      this.store.setGroups(groups);
+    } else {
+      console.log('Calling service groups');
+      this.store.loadChannelGroups();
+    }
   }
 }

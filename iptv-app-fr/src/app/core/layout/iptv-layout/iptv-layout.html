@@ -4,19 +4,12 @@
   <div class="flex flex-1 overflow-hidden">
     <aside class="w-72 border-r border-slate-800/80 overflow-y-auto
              bg-slate-950/95 backdrop-blur">
-      <mat-toolbar class="h-11 px-4 text-xs font-semibold tracking-wide
-               bg-slate-950/95 text-slate-300 border-b border-slate-800/80">
-        <span>Countries and Channels</span>
-      </mat-toolbar>
-
-      <div class="p-3">
-        <app-countries-sidebar (channelSelected)="onChannelSelected($event)" />
-      </div>
+      <app-countries-sidebar />
     </aside>
 
     <!-- MAIN -->
     <main class="flex-1 overflow-y-auto p-5">
-      <app-channels-grid [channels]="store.channels()"></app-channels-grid>
+      <app-channels-grid></app-channels-grid>
     </main>
   </div>
 </div>

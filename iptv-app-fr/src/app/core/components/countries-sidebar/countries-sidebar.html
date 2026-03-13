@@ -1,1 +1,56 @@
-<p>countries-sidebar works!</p>
+<mat-toolbar class="font-semibold tracking-wide
+               bg-slate-950/95 text-slate-300 border-b border-slate-800/80">
+  <span class="text-base">Countries: {{countries().length || 0}} and Channels: {{countChannels() || 0}}</span>
+</mat-toolbar>
+
+<div class="font-semibold tracking-wide
+               bg-slate-950/95 text-slate-300 border-b border-slate-800/80">
+  <mat-accordion multi>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title> Countries </mat-panel-title>
+      </mat-expansion-panel-header>
+      <ng-template matExpansionPanelContent>
+        @for (group of groups(); track $index) {
+        <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+          <mat-expansion-panel-header>
+            <mat-panel-title> {{group.name}} </mat-panel-title>
+          </mat-expansion-panel-header>
+          <ng-template matExpansionPanelContent>
+            <mat-nav-list>
+              @for (channel of group.channels; track channel.id) {
+              <a mat-list-item (click)="loadChannelByName(channel.name)" [attr.aria-label]="'Group ' + channel.name">
+                <img matListItemAvatar [src]="channel.logo" [alt]="channel.name">
+                <span matListItemTitle>{{ channel.name }}</span>
+              </a>
+              }
+            </mat-nav-list>
+          </ng-template>
+        </mat-expansion-panel>
+        }
+      </ng-template>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
+
+<div class="font-semibold tracking-wide
+               bg-slate-950/95 text-slate-300 border-b border-slate-800/80">
+  <mat-accordion>
+    <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+      <mat-expansion-panel-header>
+        <mat-panel-title> Channels </mat-panel-title>
+      </mat-expansion-panel-header>
+      <ng-template matExpansionPanelContent>
+        <mat-nav-list>
+          @for (channel of channels(); track channel.id) {
+          <a mat-list-item (click)="loadChannelByName(channel.name)" [attr.aria-label]="'Group ' + channel.name">
+            <img matListItemAvatar [src]="channel.logo" [alt]="channel.name">
+            <span matListItemTitle>{{ channel.name }}</span>
+            <span matListItemMeta>{{ channel.country }}</span>
+          </a>
+          }
+        </mat-nav-list>
+      </ng-template>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

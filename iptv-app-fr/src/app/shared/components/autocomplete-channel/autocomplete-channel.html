@@ -1,0 +1,18 @@
+<div class="mt-5">
+
+  <form [formGroup]="stateForm">
+    <mat-form-field>
+      <mat-label>Channels</mat-label>
+      <input type="text" matInput formControlName="stateGroup" required [matAutocomplete]="autoGroup">
+      <mat-autocomplete #autoGroup="matAutocomplete">
+        @for (group of stateGroupOptions | async; track group.country) {
+        <mat-optgroup [label]="group.country">
+          @for (name of group.channels; track $index) {
+          <mat-option [value]="name">{{name}}</mat-option>
+          }
+        </mat-optgroup>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+  </form>
+</div>

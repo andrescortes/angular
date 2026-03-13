@@ -1,4 +1,4 @@
-import { IChannel } from "../../../core/interfaces/channel.interface"
+import { IChannel } from "@core/interfaces";
 
 export type ChannelType = {
   channels: IChannel[];

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { IChannel } from '@core/interfaces';
+import { IChannel, IChannelGroup } from '@core/interfaces';
 import { environment } from '@env/environment.development';
 import { ChannelRequest } from '../interfaces/requests';
 
@@ -18,8 +18,12 @@ export class IptvService {
       name: '',
       group: 'Argentina',
       page: 1,
-      size: 30,
+      size: 1,
     }
     return this.client.post<IChannel[]>(`${this.apiUrl}/channels`, request);
+  }
+
+  getChannelGroups(): Observable<IChannelGroup[]> {
+    return this.client.get<IChannelGroup[]>(`${this.apiUrl}/channel-groups`);
   }
 }

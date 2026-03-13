@@ -1,10 +1,58 @@
-<div class="player-container">
-  <h3>{{ channelName() }}</h3>
+<mat-card class="bg-slate-900/80 border border-slate-800/80 text-slate-100
+             rounded-xl overflow-hidden shadow-lg shadow-black/40
+             hover:border-cyan-500/70 hover:shadow-cyan-500/20
+             transition duration-200">
+  <mat-card-header class="pb-0">
+    <div class="flex items-center gap-3">
+      <div mat-card-avatar class="w-10 h-10 rounded-full overflow-hidden bg-slate-800/80 pt-3">
+        <img [src]="channel()?.logo" [alt]="channel()?.name + ' logo'" loading="lazy" />
+      </div>
 
-  <video #video controls autoplay playsinline></video>
-  @if(errorMessage()){
-  <p class="error">
-    {{ errorMessage() }}
-  </p>
-  }
-</div>
+      <mat-card-title class="text-sm font-semibold text-slate-100">
+        {{ channel()?.name }}
+      </mat-card-title>
+
+      <mat-card-subtitle class="text-xs text-slate-400">
+        {{ channel()?.country }}
+      </mat-card-subtitle>
+    </div>
+
+  </mat-card-header>
+
+  <mat-card-content class="mt-3">
+    <div class="aspect-video rounded-lg overflow-hidden bg-black">
+      <div class="player-container">
+        <h3>{{ channelName() }}</h3>
+
+        <video #video controls autoplay playsinline></video>
+      </div>
+    </div>
+  </mat-card-content>
+
+  <mat-card-actions align="end" class="px-4 pb-3 pt-2 flex items-center justify-between gap-2">
+    <span class="text-[11px] uppercase tracking-wide text-slate-500">
+      Live
+    </span>
+
+    <div class="flex items-center gap-1">
+      @if(errorMessage()){
+      <p>{{ errorMessage() }}</p>
+      }
+      <button mat-button class="text-xs! px-3! py-1! rounded-full
+                    border border-cyan-500/60 text-cyan-300
+                    hover:bg-cyan-500/10">
+        <mat-icon>refresh</mat-icon>
+      </button>
+
+      <button mat-button class="text-xs! px-3! py-1! rounded-full
+                   border border-cyan-500/60 text-cyan-300
+                   hover:bg-cyan-500/10">
+        Watch
+      </button>
+
+      <button mat-icon-button class="text-slate-400 hover:text-pink-400 pt-2">
+        <mat-icon>favorite_border</mat-icon>
+      </button>
+    </div>
+  </mat-card-actions>
+</mat-card>

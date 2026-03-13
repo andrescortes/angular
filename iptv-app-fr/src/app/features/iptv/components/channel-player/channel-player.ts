@@ -8,11 +8,12 @@ import {
   inject,
   input,
   OnChanges,
-  output,
+  OnInit,
   signal,
   SimpleChanges,
   ViewChild
 } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
 
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
@@ -20,29 +21,34 @@ import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { IChannel } from '@core/interfaces';
-import { ChannelStore } from '@store/iptv/channel.store';
+import { ChannelGroupStore } from '@store/iptv';
 
 import Hls, { ErrorData } from 'hls.js';
 
 @Component({
   selector: 'app-channel-player',
-  imports: [ CommonModule, MatExpansionModule, MatListModule, MatIconModule, MatProgressSpinnerModule ],
+  imports: [
+    CommonModule,
+    MatExpansionModule,
+    MatListModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatCardModule
+  ],
   templateUrl: './channel-player.html',
   styleUrl: './channel-player.css',
 })
-export class ChannelPlayer implements AfterViewInit, OnChanges {
-  @ViewChild('video', { static: false }) videoElement?: ElementRef<HTMLVideoElement>;
+export class ChannelPlayer implements OnInit, AfterViewInit, OnChanges {
+  channel = input<IChannel>();
+
+  @ViewChild('video', { static: false })
+  videoElement?: ElementRef<HTMLVideoElement>;
   private readonly destroyRef = inject(DestroyRef);
-  readonly store = inject(ChannelStore);
+  private readonly groupStore = inject(ChannelGroupStore);
   private hls: Hls | null = null;
 
-  channel = input<IChannel>();
   errorMessage = signal<string | null>(null);
   channelName = computed(() => this.channel()?.name ?? 'Loading channel…');
-  retryToken = input<number>(0);
-  errorEmitter = output<string>();
-  playingEmitter = output<void>();
-  isViewReady = signal(false);
 
   constructor() {
     this.destroyRef.onDestroy(() => {
@@ -50,27 +56,23 @@ export class ChannelPlayer implements AfterViewInit, OnChanges {
     });
   }
 
+  ngOnInit(): void {
+  }
+
   ngAfterViewInit(): void {
-    this.isViewReady.set(true);
     this.initPlayer();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('changes->', changes);
-    if (!this.isViewReady()) {
-      return;
-    }
+    console.log('changes: ', changes);
 
-    if (changes[ 'channel' ] && !changes[ 'channel' ].firstChange) {
-      this.initPlayer();
-    }
-
-    if (changes[ 'retryToken' ] && !changes[ 'retryToken' ].firstChange) {
+    if (!changes[ 'channel' ].isFirstChange()) {
+      this.destroyPlayer();
       this.initPlayer();
     }
   }
 
-  private initPlayer(): void {
+  initPlayer(): void {
     const channel = this.channel();
     const videoEl = this.videoElement?.nativeElement;
     if (!channel?.url || !videoEl) {
@@ -88,10 +90,11 @@ export class ChannelPlayer implements AfterViewInit, OnChanges {
         videoEl.muted = true;
         videoEl?.play().then(() => {
           videoEl.pause();
-          this.playingEmitter.emit();
         })
           .catch(() => {
-            this.errorEmitter.emit('An error occurred while playing the stream.');
+            console.log('Deleting channel with name', channel.name);
+            this.groupStore.removeChannel(channel.id);
+            this.groupStore.removeGroupChannel(channel.groupTitle, channel.id);
           }
           );
       });
@@ -99,7 +102,8 @@ export class ChannelPlayer implements AfterViewInit, OnChanges {
       this.hls.on(Hls.Events.ERROR, (_, data) => {
         if (data.type === Hls.ErrorTypes.NETWORK_ERROR && data.fatal) {
           console.log('Deleting channel with name', channel.name);
-          this.store.removeChannel(channel.id);
+          this.groupStore.removeChannel(channel.id);
+          this.groupStore.removeGroupChannel(channel.groupTitle, channel.id);
         }
         this.destroyPlayer();
       });
@@ -110,14 +114,18 @@ export class ChannelPlayer implements AfterViewInit, OnChanges {
       videoEl.play().then(() => {
         videoEl.muted = true;
         videoEl.pause();
-        this.playingEmitter.emit();
       })
         .catch(() => {
-          this.errorEmitter.emit('An error occurred while playing the stream.');
+          console.log('Deleting channel with name', channel.name);
+          this.groupStore.removeChannel(channel.id);
+          this.groupStore.removeGroupChannel(channel.groupTitle, channel.id);
         });
 
       videoEl.addEventListener('error', () => {
         this.errorMessage.set('An error occurred while loading the stream.');
+        console.log('Deleting channel with name', channel.name);
+        this.groupStore.removeChannel(channel.id);
+        this.groupStore.removeGroupChannel(channel.groupTitle, channel.id);
       });
     } else {
       this.errorMessage.set('HLS is not supported in this browser.');
