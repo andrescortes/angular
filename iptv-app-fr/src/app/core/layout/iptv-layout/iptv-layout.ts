@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
-
-import { CountriesSidebar } from '@core/components/countries-sidebar/countries-sidebar';
-import { Header } from '@core/components/header/header';
-import { ChannelsGrid } from '@features/iptv/components/channels-grid/channels-grid';
+import { ChannelsGrid } from '../../../features/iptv/components/channels-grid/channels-grid';
+import { CountriesSidebar } from '../../components/countries-sidebar/countries-sidebar';
+import { Header } from '../../components/header/header';
 
 
 @Component({

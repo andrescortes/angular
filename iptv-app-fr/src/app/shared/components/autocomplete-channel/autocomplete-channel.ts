@@ -6,7 +6,7 @@ import { AsyncPipe } from '@angular/common';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { ChannelGroupStore } from '@store/iptv';
+import { ChannelGroupStore } from '../../../store/iptv';
 
 export interface StateGroup {
   country: string;
@@ -41,8 +41,6 @@ export class AutocompleteChannel {
   });
 
   stateGroups: Signal<StateGroup[]> = computed(() => {
-    console.log('groups changing');
-
     const groups = this.store.groups().map(g => {
       const state: StateGroup = {
         country: g.name,
@@ -67,7 +65,6 @@ export class AutocompleteChannel {
 
   private _filterGroup(value: string): StateGroup[] {
     if (value) {
-      console.log('name', value);
       this.store.setChannelByName(value);
       this.stateForm.controls.stateGroup.setValue('');
       this.stateForm.controls.stateGroup.reset();

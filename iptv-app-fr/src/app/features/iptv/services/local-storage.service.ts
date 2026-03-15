@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IChannelGroup } from '@core/interfaces';
+import { IChannelGroup } from '../../../core/interfaces';
 
 @Injectable({
   providedIn: 'root',

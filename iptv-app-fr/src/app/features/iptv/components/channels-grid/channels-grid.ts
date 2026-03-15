@@ -5,9 +5,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 
-import { ChannelGroupStore } from '@store/iptv';
 import { ChannelPlayer } from '../channel-player/channel-player';
-import { LocalStorageService } from '@features/iptv/services/local-storage.service';
+import { ChannelGroupStore } from '../../../../store/iptv';
+import { LocalStorageService } from '../../services/local-storage.service';
 
 @Component({
   selector: 'app-channels-grid',
@@ -27,12 +27,9 @@ export class ChannelsGrid implements OnInit {
 
   ngOnInit(): void {
     const groups = this.localStorage.getChannelGroups();
-    console.log('groups: ', groups);
-
     if (groups.length) {
       this.store.setGroups(groups);
     } else {
-      console.log('Calling service groups');
       this.store.loadChannelGroups();
     }
   }

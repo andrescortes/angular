@@ -1,4 +1,4 @@
-import { IChannel, IChannelGroup } from "@core/interfaces";
+import { IChannel, IChannelGroup } from "../../../core/interfaces";
 
 export type ChannelGroupType = {
   groups: IChannelGroup[];

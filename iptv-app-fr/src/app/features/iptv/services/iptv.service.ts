@@ -2,9 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { IChannel, IChannelGroup } from '@core/interfaces';
-import { environment } from '@env/environment.development';
+
 import { ChannelRequest } from '../interfaces/requests';
+import { environment } from '../../../../environments/environment.development';
+import { IChannel, IChannelGroup } from '../../../core/interfaces';
 
 @Injectable({
   providedIn: 'root',

@@ -1,22 +1,22 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import { computed, inject } from "@angular/core";
-import { pipe, switchMap, tap } from "rxjs";
 import { tapResponse } from '@ngrx/operators';
 import {
   patchState,
   signalStore,
   withComputed,
-  withHooks,
   withMethods,
   withState
 } from "@ngrx/signals";
 import { rxMethod } from "@ngrx/signals/rxjs-interop";
+import { pipe, switchMap, tap } from "rxjs";
 
-import { IptvService } from "@features/iptv/services/iptv.service";
-import { withLogger } from "@store/common";
+import { IChannelGroup } from "../../core/interfaces";
+import { IptvService } from "../../features/iptv/services/iptv.service";
+import { LocalStorageService } from "../../features/iptv/services/local-storage.service";
+import { withLogger } from "../common";
 import { initialChannelGroupState } from "./state";
-import { IChannelGroup } from "@core/interfaces";
-import { LocalStorageService } from "@features/iptv/services/local-storage.service";
+
 
 export const ChannelGroupStore = signalStore(
   { providedIn: 'root' },
@@ -26,13 +26,11 @@ export const ChannelGroupStore = signalStore(
     allGroups: computed(() => state.groups()),
     allChannels: computed(() => state.channels()),
     getGroupSelected: computed(() => {
-      console.log('getGroup');
       return state.selectedGroupName()
         ? state.groups().find((group) => group.name === state.selectedGroupName())?.channels
         : null;
     }),
     getChannelSelected: computed(() => {
-      console.log('getChannel');
       return state.selectedChannel()
         ? state.channels().find((c) => c.name === state.selectedChannel()) ?? null
         : null;
@@ -67,11 +65,9 @@ export const ChannelGroupStore = signalStore(
       )
     ),
     setGroupByName(name: string): void {
-      console.log('groupName: ', name);
       patchState(store, { selectedGroupName: name, selectedChannel: null });
     },
     setChannelByName(channelName: string): void {
-      console.log('groupName: ', channelName);
       patchState(store, { selectedChannel: channelName, selectedGroupName: null });
     },
     removeChannel(id: string): void {
