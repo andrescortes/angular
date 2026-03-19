@@ -5,11 +5,19 @@
     <aside class="w-72 border-r border-slate-800/80 overflow-y-auto
              bg-slate-950/95 backdrop-blur">
       <app-countries-sidebar />
+      <div class="flex justify-center font-semibold tracking-wide
+               bg-slate-950/95 text-slate-300 border-b border-slate-800/80 mt-2">
+        <button matButton="filled" (click)="showChat()">Chat</button>
+      </div>
     </aside>
 
     <!-- MAIN -->
     <main class="flex-1 overflow-y-auto p-5">
+      @if(isChat()){
+      <app-chat />
+      }@else {
       <app-channels-grid></app-channels-grid>
+      }
     </main>
   </div>
 </div>

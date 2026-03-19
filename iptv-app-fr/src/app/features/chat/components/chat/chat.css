@@ -1,0 +1,19 @@
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #e0e7ff; /* Indigo-100 */
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #c7d2fe; /* Indigo-200 */
+}
+
+/* Fix for Material Input inside Tailwind */
+.mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}
