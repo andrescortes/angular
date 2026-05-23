@@ -5,3 +5,27 @@
 @plugin "daisyui" {
   themes: dracula --default;
 }
+
+@font-face {
+  font-family: 'monserrat';
+  src: url('../public/assets/fonts/montserrat/Montserrat-Medium.ttf') format('truetype');
+}
+
+@theme {
+  --font-monserrat: "monserrat", sans-serif;
+  --animate-fadeIn: fadeIn 0.5s ease-in-out;
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+
+    50% {
+      opacity: 0.6;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+}
