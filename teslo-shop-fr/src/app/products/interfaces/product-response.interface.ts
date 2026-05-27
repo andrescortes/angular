@@ -3,31 +3,31 @@ import { User } from "@/app/auth/interfaces/user.interface";
 export interface IProductResponse {
   count:    number;
   pages:    number;
-  products: Product[];
+  products: IProduct[];
 }
 
-export interface Product {
+export interface IProduct {
   id:          string;
   title:       string;
   price:       number;
   description: string;
   slug:        string;
   stock:       number;
-  sizes:       Size[];
-  gender:      Gender;
+  sizes:       ISize[];
+  gender:      IGender;
   tags:        string[];
   images:      string[];
   user:        User;
 }
 
-export enum Gender {
+export enum IGender {
   Kid = "kid",
   Men = "men",
   Unisex = "unisex",
   Women = "women",
 }
 
-export enum Size {
+export enum ISize {
   L = "L",
   M = "M",
   S = "S",

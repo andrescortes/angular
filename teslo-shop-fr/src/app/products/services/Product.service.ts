@@ -6,7 +6,7 @@ import { IProductResponse } from '../interfaces/product-response.interface';
 @Injectable({
   providedIn: 'root',
 })
-export class Product {
+export class ProductService {
   private readonly _http = inject(HttpClient);
 
   getProducts(): Observable<IProductResponse> {
