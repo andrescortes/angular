@@ -21,6 +21,7 @@
     "@angular/router": "^22.2.0",
     "@ngrx/operators": "^21.0.1",
     "@ngrx/signals": "^21.0.1",
+    "@ngrx/store": "^22.0.1",
     "hls.js": "^1.6.15",
     "rxjs": "~7.8.0",
     "tailwindcss": "4.2.1",
