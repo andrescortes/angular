@@ -1,4 +1,4 @@
-import { Component, computed, inject, Signal } from '@angular/core';
+import { Component, computed, inject, Signal, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { startWith, map, debounceTime, distinctUntilChanged } from 'rxjs/operators';
@@ -16,7 +16,7 @@ export interface StateGroup {
 export const _filter = (opt: string[], value: string): string[] => {
   const filterValue = value.toLowerCase();
 
-  return opt.filter(item => item.toLowerCase().includes(filterValue));
+  return opt.filter((item) => item.toLowerCase().includes(filterValue));
 };
 
 @Component({
@@ -30,6 +30,7 @@ export const _filter = (opt: string[], value: string): string[] => {
     AsyncPipe,
   ],
   templateUrl: './autocomplete-channel.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './autocomplete-channel.css',
 })
 export class AutocompleteChannel {
@@ -41,26 +42,24 @@ export class AutocompleteChannel {
   });
 
   stateGroups: Signal<StateGroup[]> = computed(() => {
-    const groups = this.store.groups().map(g => {
+    const groups = this.store.groups().map((g) => {
       const state: StateGroup = {
         country: g.name,
-        channels: g.channels.map(c => c.name)
-      }
+        channels: g.channels.map((c) => c.name),
+      };
       return state;
-    })
+    });
     return groups;
   });
   stateGroupOptions?: Observable<StateGroup[]>;
 
   constructor() {
-    this.stateGroupOptions = this.stateForm.get('stateGroup')!
-      .valueChanges
-      .pipe(
-        debounceTime(500),
-        distinctUntilChanged(),
-        startWith(''),
-        map(value => this._filterGroup(value || '')),
-      );
+    this.stateGroupOptions = this.stateForm.get('stateGroup')!.valueChanges.pipe(
+      debounceTime(500),
+      distinctUntilChanged(),
+      startWith(''),
+      map((value) => this._filterGroup(value || '')),
+    );
   }
 
   private _filterGroup(value: string): StateGroup[] {
@@ -69,8 +68,8 @@ export class AutocompleteChannel {
       this.stateForm.controls.stateGroup.setValue('');
       this.stateForm.controls.stateGroup.reset();
       return this.stateGroups()
-        .map(group => ({ country: group.country, channels: _filter(group.channels, value) }))
-        .filter(group => group.channels.length > 0);
+        .map((group) => ({ country: group.country, channels: _filter(group.channels, value) }))
+        .filter((group) => group.channels.length > 0);
     }
 
     return this.stateGroups();

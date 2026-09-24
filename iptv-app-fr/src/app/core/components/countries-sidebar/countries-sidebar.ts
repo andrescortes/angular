@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
@@ -18,6 +18,7 @@ import { ChannelGroupStore } from '../../../store/iptv';
     MatIconModule,
   ],
   templateUrl: './countries-sidebar.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './countries-sidebar.css',
 })
 export class CountriesSidebar {
@@ -27,13 +28,15 @@ export class CountriesSidebar {
   groups = this.groupStore.allGroups;
   channels = this.groupStore.allChannels;
 
-  countChannels = computed(() => this.groups().flatMap(g => g.channels).length);
-  channelNames = computed(() => this.channels().map(c => c.name));
+  countChannels = computed(() => this.groups().flatMap((g) => g.channels).length);
+  channelNames = computed(() => this.channels().map((c) => c.name));
   countries = computed(() => {
-    return this.groups().map(g => g.name
-      ? { name: g.name, count: g.channelsCount }
-      : { name: 'Unknown', count: g.channelsCount }
-    )
+    return this.groups()
+      .map((g) =>
+        g.name
+          ? { name: g.name, count: g.channelsCount }
+          : { name: 'Unknown', count: g.channelsCount },
+      )
       .sort((a, b) => a.name.localeCompare(b.name));
   });
 

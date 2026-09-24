@@ -1,4 +1,12 @@
-import { Component, effect, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  effect,
+  ElementRef,
+  inject,
+  OnInit,
+  ViewChild,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { ChatStore } from '../../../../store/chat/ChatStore.store';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -17,14 +25,15 @@ import { MatIconModule } from '@angular/material/icon';
     MatInputModule,
     MatButtonModule,
     FormsModule,
-    MatIconModule
+    MatIconModule,
   ],
   templateUrl: './chat.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './chat.css',
 })
 export class Chat implements OnInit {
   readonly store = inject(ChatStore);
-  @ViewChild('scrollContainer') 
+  @ViewChild('scrollContainer')
   private scrollContainer!: ElementRef;
 
   newMessage = '';
@@ -50,7 +59,8 @@ export class Chat implements OnInit {
 
   private scrollToBottom(): void {
     try {
-      this.scrollContainer.nativeElement.scrollTop = this.scrollContainer.nativeElement.scrollHeight;
+      this.scrollContainer.nativeElement.scrollTop =
+        this.scrollContainer.nativeElement.scrollHeight;
     } catch (err) {
       console.log('err :>> ', err);
     }

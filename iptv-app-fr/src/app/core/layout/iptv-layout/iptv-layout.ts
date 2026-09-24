@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ChannelsGrid } from '../../../features/iptv/components/channels-grid/channels-grid';
@@ -7,7 +7,6 @@ import { Header } from '../../components/header/header';
 import { MatButtonModule } from '@angular/material/button';
 import { Chat } from '../../../features/chat/components/chat/chat';
 import { CommonModule } from '@angular/common';
-
 
 @Component({
   selector: 'app-iptv-layout',
@@ -18,9 +17,10 @@ import { CommonModule } from '@angular/common';
     ChannelsGrid,
     CountriesSidebar,
     Header,
-    Chat
+    Chat,
   ],
   templateUrl: './iptv-layout.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './iptv-layout.css',
 })
 export class IptvLayout {

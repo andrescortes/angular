@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -13,9 +13,10 @@ import { AutocompleteChannel } from '../../../shared/components/autocomplete-cha
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
-    AutocompleteChannel
+    AutocompleteChannel,
   ],
   templateUrl: './header.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './header.css',
 })
 export class Header {}
