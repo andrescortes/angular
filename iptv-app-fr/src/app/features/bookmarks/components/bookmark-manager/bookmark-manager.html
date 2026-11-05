@@ -1,0 +1,285 @@
+<div class="space-y-6 max-w-7xl mx-auto pb-10">
+  <!-- Top Banner / Header -->
+  <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-900/90 border border-slate-800 rounded-2xl p-6 shadow-xl backdrop-blur">
+    <div>
+      <div class="flex items-center gap-3">
+        <span class="p-2.5 rounded-xl bg-cyan-500/20 text-cyan-400">
+          <mat-icon>bookmarks</mat-icon>
+        </span>
+        <div>
+          <h1 class="text-2xl font-bold tracking-tight text-white flex items-center gap-2">
+            Bookmarks CRUD Lab
+            <span class="text-xs px-2.5 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 font-medium">
+              &#64;ngrx/signals 21
+            </span>
+          </h1>
+          <p class="text-sm text-slate-400 mt-1">
+            Real-world full CRUD showcasing <code class="text-cyan-300 font-mono">withEntities()</code>, <code class="text-cyan-300 font-mono">withComputed()</code>, <code class="text-cyan-300 font-mono">rxMethod()</code>, and optimistic updates.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Counters -->
+    <div class="flex items-center gap-3">
+      <div class="px-4 py-2 rounded-xl bg-slate-950 border border-slate-800 text-center">
+        <div class="text-xs text-slate-400 font-medium">Total Entities</div>
+        <div class="text-xl font-bold text-cyan-400 font-mono">{{ store.stats().total }}</div>
+      </div>
+      <div class="px-4 py-2 rounded-xl bg-slate-950 border border-slate-800 text-center">
+        <div class="text-xs text-slate-400 font-medium">Favorites</div>
+        <div class="text-xl font-bold text-amber-400 font-mono">{{ store.stats().favorites }}</div>
+      </div>
+      <button
+        mat-stroked-button
+        class="!border-slate-700 !text-slate-300 hover:!bg-slate-800"
+        (click)="store.resetToDefault()"
+        matTooltip="Reset localStorage to default items">
+        <mat-icon class="!text-slate-400">restart_alt</mat-icon>
+        Reset Data
+      </button>
+    </div>
+  </div>
+
+  @if (store.isLoading()) {
+    <mat-progress-bar mode="indeterminate" class="rounded-full"></mat-progress-bar>
+  }
+
+  @if (store.error(); as err) {
+    <div class="p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 flex items-center gap-3">
+      <mat-icon class="text-rose-400">error</mat-icon>
+      <span class="text-sm">{{ err }}</span>
+    </div>
+  }
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <!-- LEFT: FORM (CREATE / UPDATE) -->
+    <div class="lg:col-span-4 space-y-6">
+      <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 shadow-lg">
+        <div class="flex items-center justify-between pb-4 border-b border-slate-800 mb-5">
+          <div class="flex items-center gap-2">
+            <mat-icon class="text-cyan-400">{{ editingId ? 'edit' : 'add_circle' }}</mat-icon>
+            <h2 class="text-lg font-semibold text-white">
+              {{ editingId ? 'Edit Bookmark' : 'Add New Bookmark' }}
+            </h2>
+          </div>
+          @if (editingId) {
+            <span class="text-xs px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono border border-amber-500/30">
+              Editing mode
+            </span>
+          }
+        </div>
+
+        <form [formGroup]="bookmarkForm" (ngSubmit)="save()" class="space-y-4">
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">
+              Title *
+            </label>
+            <input
+              type="text"
+              formControlName="title"
+              placeholder="e.g. Angular Official Documentation"
+              class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 text-slate-100 placeholder-slate-600 text-sm outline-none transition" />
+            @if (bookmarkForm.controls.title.touched && bookmarkForm.controls.title.invalid) {
+              <p class="text-xs text-rose-400 mt-1">Title is required (min 2 characters)</p>
+            }
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">
+              URL *
+            </label>
+            <input
+              type="url"
+              formControlName="url"
+              placeholder="https://..."
+              class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 text-slate-100 placeholder-slate-600 text-sm outline-none transition" />
+            @if (bookmarkForm.controls.url.touched && bookmarkForm.controls.url.invalid) {
+              <p class="text-xs text-rose-400 mt-1">Please enter a valid URL starting with http:// or https://</p>
+            }
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">
+              Category
+            </label>
+            <select
+              formControlName="category"
+              class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 text-slate-100 text-sm outline-none transition">
+              @for (cat of defaultCategories; track cat) {
+                <option [value]="cat">{{ cat }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="flex items-center gap-2 pt-2">
+            <label class="flex items-center gap-2 cursor-pointer select-none">
+              <input
+                type="checkbox"
+                formControlName="isFavorite"
+                class="w-4 h-4 rounded bg-slate-950 border-slate-700 text-amber-500 focus:ring-amber-500" />
+              <span class="text-sm text-slate-300">Mark as favorite</span>
+            </label>
+          </div>
+
+          <div class="flex items-center gap-3 pt-3">
+            <button
+              type="submit"
+              [disabled]="store.isLoading()"
+              class="flex-1 py-2.5 px-4 rounded-xl font-medium text-sm flex items-center justify-center gap-2 transition shadow-md bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white disabled:opacity-50">
+              <mat-icon class="text-base">{{ editingId ? 'save' : 'add' }}</mat-icon>
+              {{ editingId ? 'Update Bookmark' : 'Add Bookmark' }}
+            </button>
+
+            @if (editingId) {
+              <button
+                type="button"
+                (click)="cancelEdit()"
+                class="py-2.5 px-4 rounded-xl font-medium text-sm border border-slate-700 text-slate-300 hover:bg-slate-800 transition">
+                Cancel
+              </button>
+            }
+          </div>
+        </form>
+      </div>
+
+      <!-- State Inspector (Visualizing Signals) -->
+      <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-lg">
+        <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3">
+          <mat-icon class="!text-sm text-cyan-400">code</mat-icon>
+          Live Signal Store State
+        </div>
+        <div class="bg-slate-950 rounded-xl p-3 border border-slate-800 font-mono text-xs text-slate-300 space-y-1.5 overflow-x-auto">
+          <div><span class="text-purple-400">entities.length:</span> {{ store.entities().length }}</div>
+          <div><span class="text-purple-400">ids():</span> [{{ store.ids().join(', ') }}]</div>
+          <div><span class="text-purple-400">searchQuery():</span> "{{ store.searchQuery() }}"</div>
+          <div><span class="text-purple-400">selectedCategory():</span> "{{ store.selectedCategory() }}"</div>
+          <div><span class="text-purple-400">onlyFavorites():</span> {{ store.onlyFavorites() }}</div>
+          <div><span class="text-purple-400">selectedBookmarkId():</span> {{ store.selectedBookmarkId() ?? 'null' }}</div>
+          <div><span class="text-purple-400">isLoading():</span> {{ store.isLoading() }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: LIST + FILTERS + CRUD ACTIONS -->
+    <div class="lg:col-span-8 space-y-6">
+      <!-- Search & Filters Toolbar -->
+      <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-lg flex flex-col sm:flex-row items-center gap-4">
+        <!-- Search input -->
+        <div class="relative w-full sm:flex-1">
+          <mat-icon class="absolute left-3.5 top-1/2 -translate-y-1/2 !text-slate-500 text-lg">search</mat-icon>
+          <input
+            type="text"
+            [value]="store.searchQuery()"
+            (input)="store.setSearchQuery($any($event.target).value)"
+            placeholder="Search bookmarks by title or URL..."
+            class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 text-slate-100 placeholder-slate-500 text-sm outline-none transition" />
+          @if (store.searchQuery()) {
+            <button
+              (click)="store.setSearchQuery('')"
+              class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white">
+              <mat-icon class="!text-sm">close</mat-icon>
+            </button>
+          }
+        </div>
+
+        <!-- Filter buttons -->
+        <div class="flex items-center gap-2 w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0">
+          <select
+            [value]="store.selectedCategory()"
+            (change)="store.setSelectedCategory($any($event.target).value)"
+            class="px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-slate-200 text-sm outline-none focus:border-cyan-500">
+            @for (cat of store.categories(); track cat) {
+              <option [value]="cat">{{ cat }}</option>
+            }
+          </select>
+
+          <button
+            type="button"
+            (click)="store.toggleFavoritesOnly()"
+            [class]="store.onlyFavorites()
+              ? 'bg-amber-500/20 text-amber-300 border-amber-500/50'
+              : 'bg-slate-950 text-slate-400 border-slate-800 hover:text-slate-200'"
+            class="px-3.5 py-2 rounded-xl border text-sm flex items-center gap-1.5 transition font-medium whitespace-nowrap">
+            <mat-icon class="!text-base" [class.text-amber-400]="store.onlyFavorites()">
+              {{ store.onlyFavorites() ? 'star' : 'star_border' }}
+            </mat-icon>
+            Favorites Only
+          </button>
+        </div>
+      </div>
+
+      <!-- Bookmarks List -->
+      <div class="space-y-3">
+        @for (item of store.filteredBookmarks(); track item.id) {
+          <div
+            (click)="selectForEdit(item)"
+            [class.border-cyan-500]="store.selectedBookmarkId() === item.id"
+            [class.bg-slate-850]="store.selectedBookmarkId() === item.id"
+            class="group bg-slate-900/90 hover:bg-slate-800/80 border border-slate-800 rounded-2xl p-4 transition-all duration-200 cursor-pointer shadow flex items-center justify-between gap-4">
+            
+            <div class="flex items-start gap-3 min-w-0">
+              <button
+                type="button"
+                (click)="toggleFav(item.id, $event)"
+                class="p-2 rounded-xl hover:bg-slate-800 transition text-slate-500 hover:text-amber-400"
+                matTooltip="Toggle favorite (Optimistic Signal update)">
+                <mat-icon [class.text-amber-400]="item.isFavorite" class="transition-transform active:scale-125">
+                  {{ item.isFavorite ? 'star' : 'star_border' }}
+                </mat-icon>
+              </button>
+
+              <div class="min-w-0">
+                <div class="flex items-center gap-2 flex-wrap">
+                  <h3 class="font-semibold text-white truncate text-base group-hover:text-cyan-300 transition">
+                    {{ item.title }}
+                  </h3>
+                  <span class="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700 font-medium">
+                    {{ item.category }}
+                  </span>
+                </div>
+
+                <a
+                  [href]="item.url"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  (click)="$event.stopPropagation()"
+                  class="text-xs text-slate-400 hover:text-cyan-400 font-mono truncate block mt-1 transition flex items-center gap-1">
+                  {{ item.url }}
+                  <mat-icon class="!text-xs">open_in_new</mat-icon>
+                </a>
+              </div>
+            </div>
+
+            <!-- Action buttons -->
+            <div class="flex items-center gap-1 opacity-90 sm:opacity-70 group-hover:opacity-100 transition">
+              <button
+                type="button"
+                (click)="selectForEdit(item)"
+                class="p-2 rounded-xl text-slate-400 hover:text-cyan-300 hover:bg-slate-750 transition"
+                matTooltip="Edit bookmark">
+                <mat-icon class="!text-lg">edit</mat-icon>
+              </button>
+
+              <button
+                type="button"
+                (click)="remove(item.id, $event)"
+                class="p-2 rounded-xl text-slate-400 hover:text-rose-400 hover:bg-slate-750 transition"
+                matTooltip="Delete bookmark">
+                <mat-icon class="!text-lg">delete</mat-icon>
+              </button>
+            </div>
+          </div>
+        } @empty {
+          <div class="bg-slate-900/60 border border-dashed border-slate-800 rounded-2xl p-12 text-center">
+            <mat-icon class="!text-5xl text-slate-600 mb-2">bookmark_border</mat-icon>
+            <h3 class="text-base font-semibold text-slate-300">No bookmarks found</h3>
+            <p class="text-sm text-slate-500 mt-1 max-w-sm mx-auto">
+              No items match your active filters or query. Try adjusting your filter or add a new bookmark.
+            </p>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

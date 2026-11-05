@@ -9,6 +9,8 @@ import { Chat } from '../../../features/chat/components/chat/chat';
 import { CommonModule } from '@angular/common';
 
 
+import { BookmarkManager } from '../../../features/bookmarks/components/bookmark-manager/bookmark-manager';
+
 @Component({
   selector: 'app-iptv-layout',
   imports: [
@@ -18,15 +20,16 @@ import { CommonModule } from '@angular/common';
     ChannelsGrid,
     CountriesSidebar,
     Header,
-    Chat
+    Chat,
+    BookmarkManager
   ],
   templateUrl: './iptv-layout.html',
   styleUrl: './iptv-layout.css',
 })
 export class IptvLayout {
-  isChat = signal<boolean>(false);
+  activeView = signal<'channels' | 'chat' | 'bookmarks'>('channels');
 
-  showChat(): void {
-    this.isChat.set(!this.isChat());
+  setView(view: 'channels' | 'chat' | 'bookmarks'): void {
+    this.activeView.set(view);
   }
 }
