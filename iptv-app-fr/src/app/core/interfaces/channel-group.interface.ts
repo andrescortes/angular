@@ -1,4 +1,4 @@
-import { IChannel } from "./channel.interface";
+import { IChannel } from "./Channel.interface";
 
 export interface IChannelGroup {
   name: string;
