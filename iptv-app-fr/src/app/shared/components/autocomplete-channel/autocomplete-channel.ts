@@ -63,6 +63,8 @@ export class AutocompleteChannel {
   }
 
   private _filterGroup(value: string): StateGroup[] {
+    console.log("Grupos: ", value);
+
     if (value) {
       this.store.setChannelByName(value);
       this.stateForm.controls.stateGroup.setValue('');
