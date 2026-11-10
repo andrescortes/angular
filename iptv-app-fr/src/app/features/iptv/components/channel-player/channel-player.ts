@@ -11,8 +11,7 @@ import {
   OnInit,
   signal,
   SimpleChanges,
-  ViewChild,
-  ChangeDetectionStrategy,
+  ViewChild
 } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
@@ -20,6 +19,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
+
 
 import Hls, { ErrorData } from 'hls.js';
 import { IChannel } from '../../../../core/interfaces';
@@ -33,10 +34,9 @@ import { ChannelGroupStore } from '../../../../store/iptv';
     MatListModule,
     MatIconModule,
     MatProgressSpinnerModule,
-    MatCardModule,
+    MatCardModule
   ],
   templateUrl: './channel-player.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './channel-player.css',
 })
 export class ChannelPlayer implements OnInit, AfterViewInit, OnChanges {
@@ -57,14 +57,15 @@ export class ChannelPlayer implements OnInit, AfterViewInit, OnChanges {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   ngAfterViewInit(): void {
     this.initPlayer();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (!changes['channel'].isFirstChange()) {
+    if (!changes[ 'channel' ].isFirstChange()) {
       this.destroyPlayer();
       this.initPlayer();
     }
@@ -86,15 +87,14 @@ export class ChannelPlayer implements OnInit, AfterViewInit, OnChanges {
 
       this.hls.on(Hls.Events.MANIFEST_PARSED, () => {
         videoEl.muted = true;
-        videoEl
-          ?.play()
-          .then(() => {
-            videoEl.pause();
-          })
+        videoEl?.play().then(() => {
+          videoEl.pause();
+        })
           .catch(() => {
             this.groupStore.removeChannel(channel.id);
             this.groupStore.removeGroupChannel(channel.groupTitle, channel.id);
-          });
+          }
+          );
       });
 
       this.hls.on(Hls.Events.ERROR, (_, data) => {
@@ -104,15 +104,14 @@ export class ChannelPlayer implements OnInit, AfterViewInit, OnChanges {
         }
         this.destroyPlayer();
       });
+
     } else if (videoEl.canPlayType('application/vnd.apple.mpegurl')) {
       videoEl.src = channel.url;
 
-      videoEl
-        .play()
-        .then(() => {
-          videoEl.muted = true;
-          videoEl.pause();
-        })
+      videoEl.play().then(() => {
+        videoEl.muted = true;
+        videoEl.pause();
+      })
         .catch(() => {
           this.groupStore.removeChannel(channel.id);
           this.groupStore.removeGroupChannel(channel.groupTitle, channel.id);
