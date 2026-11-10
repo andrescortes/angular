@@ -1,0 +1,60 @@
+name: Deploy Angular IPTV Frontend (Monorepo)
+
+on:
+    push:
+        branches: ["main"]
+        paths:
+            - "iptv-app-fr/**"
+            - ".github/workflows/deploy-frontend.yml"
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        defaults:
+            run:
+                working-directory: iptv-app-fr
+
+        steps:
+            - name: Checkout del código
+              uses: actions/checkout@v4
+
+            - name: Setup pnpm
+              uses: pnpm/action-setup@v6
+              with:
+                  version: 10
+            - name: Setup node
+              uses: actions/setup-node@v6
+              with:
+                  node-version: 24
+                  cache: "pnpm"
+                  cache-dependency-path: iptv-app-fr/package-lock.json
+
+            - name: Instalar dependencias
+              run: pnpm install --frozen-lockfile
+
+            - name: Run tests
+              run: pnpm test -- --watch=false
+
+            - name: Build app
+              run: npm run build
+
+            - name: Upload artifacts
+              uses: actions/upload-artifact@v4
+              with:
+                  name: angular-dist
+                  path: iptv-app-fr/dist/iptv-app-fr/browser/
+    deploy:
+        needs: build
+        runs-on: self-hosted
+        steps:
+            - name: clean directory nginx web from mobile
+              run: rm -rf /var/www/html/*
+
+            - name: Download new compiled code frontend
+              uses: actions/download-artifact@v4
+              with:
+                  name: angular-dist
+                  path: /var/www/html/
+
+            - name: reload Nginx server
+              run: nginx -s reload || service nginx reload
