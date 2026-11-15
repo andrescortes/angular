@@ -54,7 +54,7 @@ jobs:
       - name: Configurar llave SSH
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/id_ed25519
+          printf '%s\n' "${{ secrets.VPS_SSH_KEY }}" | tr -d '\r' > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
 
       - name: Desplegar directamente en la ruta de Nginx
@@ -62,7 +62,7 @@ jobs:
           rsync -avz --delete \
             -e "ssh -p 8022 -o StrictHostKeyChecking=no" \
             iptv-app-fr/dist/iptv-app-fr/browser/ \
-            ${{ secrets.VPS_USER }}@${{ secrets.VPS_TAILSCALE_IP }}:$PREFIX/share/nginx/html/
+            ${{ secrets.VPS_USER }}@${{ secrets.VPS_TAILSCALE_IP }}:/data/data/com.termux/files/usr/share/nginx/html/
 
       - name: Recargar servidor Nginx
         run: |
